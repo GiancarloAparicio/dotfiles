@@ -40,7 +40,7 @@
     <property name="plugin-4" type="string" value="pager">
       <property name="rows" type="uint" value="1"/>
       <property name="miniature-view" type="bool" value="false"/>
-      <property name="workspace-scrolling" type="bool" value="true"/>
+      <property name="workspace-scrolling" type="bool" value="false"/>
       <property name="numbering" type="bool" value="false"/>
     </property>
     <property name="plugin-8" type="string" value="pulseaudio">
