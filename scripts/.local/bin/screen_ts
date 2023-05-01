@@ -2,19 +2,19 @@
 
 Beep() {
 
-    BEEP_VOL="60%"
+	BEEP_VOL="80%"
 
-    CURRENT_VOL="$(amixer sget Master | grep -m1 "\[on\]" | awk '{print $5}' | tr -d '[]')"
-    amixer sset Master $BEEP_VOL >/dev/null 2>&1
+	CURRENT_VOL="$(amixer sget Master | grep -m1 "\[on\]" | awk '{print $5}' | tr -d '[]')"
+	amixer sset Master $BEEP_VOL >/dev/null 2>&1
 
-    (
-        speaker-test -t sine -f 600 >/dev/null 2>&1 &
-        BEEP_PID=$!
-        sleep 0.2
-        kill -9 $BEEP_PID 2>/dev/null
-    )
+	(
+		speaker-test -t sine -f 600 >/dev/null 2>&1 &
+		BEEP_PID=$!
+		sleep 0.2
+		kill -9 $BEEP_PID 2>/dev/null
+	)
 
-    amixer sset Master $CURRENT_VOL >/dev/null 2>&1
+	amixer sset Master $CURRENT_VOL >/dev/null 2>&1
 }
 
 # Create and remove temp file
@@ -31,23 +31,23 @@ wget -q --spider http://google.com
 
 # Capture text to imagen temp
 if [ $? -eq 0 ]; then
-    echo "Online"
+	echo "Online"
 
-    $HOME/.asdf/shims/gcloud ml vision detect-text --language-hints=es $SCR_IMG.jpg >$SCR_IMG.json
-    echo -e "$(cat $SCR_IMG.json | jq '.responses[].fullTextAnnotation.text')" | tr '\n' ' ' | tr '  ' ' ' | xargs | xclip -selection c
+	$HOME/.asdf/shims/gcloud ml vision detect-text --language-hints=es $SCR_IMG.jpg >$SCR_IMG.json
+	echo -e "$(cat $SCR_IMG.json | jq '.responses[].fullTextAnnotation.text')" | tr '\n' ' ' | tr '  ' ' ' | xargs | xclip -selection c
 else
-    echo "Offline"
-    # Set lang to OCR
-    tesseract_lang="spa"
+	echo "Offline"
+	# Set lang to OCR
+	tesseract_lang="spa"
 
-    # Capture text to imagen temp
-    tesseract $SCR_IMG.jpg $SCR_IMG &>/dev/null
-    cat $SCR_IMG.txt
+	# Capture text to imagen temp
+	tesseract $SCR_IMG.jpg $SCR_IMG &>/dev/null
+	cat $SCR_IMG.txt
 
-    # Copy text to clipboard
-    cat $SCR_IMG.txt | tr '\n' ' ' | xargs | xclip -selection c
+	# Copy text to clipboard
+	cat $SCR_IMG.txt | tr '\n' ' ' | xargs | xclip -selection c
 
 fi
 
 Beep
-exit
+Beep
