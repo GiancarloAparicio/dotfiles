@@ -1,0 +1,133 @@
+#!/bin/dash
+
+# https://gitlab.com/protesilaos/dotfiles
+
+BORDER_WIDTH=3
+
+export BORDER_WIDTH
+
+#################################################
+## Pre-Config
+#################################################
+xrandr --output $(xrandr | grep " connected" | cut -f1 -d " ") --scale 1.4x1.4
+pgrep -x sxhkd >/dev/null || sxhkd -c $HOME/.config/sxhkd/sxhkdrc $HOME/.config/sxhkd/sxhkdrc.common &
+#compton --config $HOME/.config/compton/compton.conf &
+picom --config .config/picom/picom.conf &
+wmname LG3D &
+
+feh --bg-fill /opt/wallpapers/wallpaper-paisaje-2.jpg &
+#$HOME/.config/polybar/shades/launch.sh &
+$HOME/.config/polybar/shapes/launch.sh &
+killall mate-notification-daemon
+killall xfce4-notifyd
+dunst &
+
+#################################################
+## Essentials
+#################################################
+
+_bc() {
+	bspc config "$@"
+}
+
+_check() {
+	command -v "$1" >/dev/null
+}
+
+# Determine XrandR settings.  Whether an external display is connected
+# to the laptop or not.
+_check bspwm_conf_xrandr && bspwm_conf_xrandr
+
+# Define desktop[s] [per monitor].  Contingent on the above.  Also note
+# that this leverages to `bspwm_dynamic_desktops'.
+_check bspwm_conf_desktops && bspwm_conf_desktops
+
+#################################################
+## Visual setup
+#################################################
+
+_bc pointer_modifier mod4
+_bc border_width $BORDER_WIDTH
+_bc window_gap 3.5
+_bc split_ratio 0.5
+_bc single_monocle false
+_bc borderless_monocle true
+_bc gapless_monocle true
+_bc focus_follows_pointer false
+_bc pointer_follows_monitor true
+
+# Mouse
+#   Set mouse 1 to move floating windows
+_bc pointer_action1 move
+
+#   Mouse 2 button resizes the window by side
+_bc pointer_action2 resize_side
+
+#   Mouse 3 button (right mouse) resize by corner
+_bc pointer_action2 resize_corner
+
+# Debian 10 uses a version of BSPWM that lacks a couple of configs.
+if [ "$(bspwm -v)" -gt '0.9.5' ]; then
+	_bc automatic_scheme longest_side
+
+	for i in top right bottom left; do
+		_bc "${i}"_monocle_padding 0
+	done
+	unset i
+fi
+
+bspc monitor -d I II III IV V VI VII VIII IX X
+
+#################################################
+## Colors
+#################################################
+
+# Blue dark
+#_bc normal_border_color "#484848"
+#_bc focused_border_color "#2C73D2"
+#_bc urgent_border_color "#FF6F91"
+#_bc active_border_color "#bd93f9"
+#_bc presel_border_color "#715BA6"
+#_bc presel_feedback_color "#6272a4"
+
+# Purple dark
+_bc normal_border_color "#484848"
+_bc focused_border_color "#AC2ED1"
+_bc urgent_border_color "#FF6F91"
+_bc active_border_color "#bd93f9"
+_bc presel_border_color "#C071D9"
+_bc presel_feedback_color "#6272a4"
+
+#################################################
+## Rules
+#################################################
+
+bspc rule -a Thunar state=floating follow=on
+bspc rule -a "gnote" state=floating follow=on
+bspc rule -a "nautilus" -o state=floating focus=on
+#bspc rule -a Telegram state=floating management=on desktop=^3 follow=on
+#bspc rule -a Google-chrome-stable desktop=^2
+#bspc rule -a "Anki" desktop=^2
+#bspc rule -a "Obsidain" desktop=^1 follow=off
+#bspc rule -a sxiv state=floating center=true
+bspc rule -a polybar border=off manage=off
+
+xsetroot -cursor_name left_ptr
+
+#################################################
+## Auto-start
+#################################################
+
+flameshot &
+redshift -P -O 4000 -b 0.9 &
+filebrowser -d ~/filebrowser.db --noauth -a 0.0.0.0 -r "$HOME/brain/🧠 Cerebro digital/300 - 🗄️ Resources/380 - 🗃️ Attachments" &
+
+#################################################
+## Init apps
+#################################################
+#~/.local/bin/bspwm-toggle-visibility gnote "dbus-launch flatpak run org.gnome.Gnote" &
+#~/.local/bin/bspwm-toggle-visibility DesktopEditors "dbus-launch flatpak run org.onlyoffice.desktopeditors" &
+#~/.local/bin/bspwm-toggle-visibility TelegramDesktop "dbus-launch flatpak run org.telegram.desktop"
+#~/.local/bin/bspwm-toggle-visibility obsidian "dbus-launch flatpak run md.obsidian.Obsidian"
+#~/.local/bin/bspwm-toggle-visibility "google-chrome" "dbus-launch flatpak run com.google.Chrome"
+

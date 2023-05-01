@@ -31,7 +31,3 @@ cp .ctags ~/.ctags
 
 bash <(curl -s https://raw.githubusercontent.com/lunarvim/lunarvim/master/utils/installer/install.sh) -y
 
-cp -r ./lvim ~/.config/
-cp -r ./lvim/* ~/.local/share/lunarvim/lvim/lua/
-
-nvim

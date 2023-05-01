@@ -1,0 +1,22 @@
+StrictHostKeyChecking no
+XAuthLocation /opt/X11/bin/xauth
+ForwardAgent Yes
+ServerAliveInterval 60
+TCPKeepAlive=yes
+
+
+Host *
+    ForwardX11 yes
+
+Host zte
+    HostName 192.168.0.6
+    User root
+    Port 8022
+    Compression yes
+    ControlMaster auto
+    ControlPath ~/.ssh/ssh-%r@%h:%p
+    ControlPersist yes
+    # RemoteForward 9022 Host1:22 # Todo el trafico entrante por el puerto local 9022 del zte se redirecciona a Host1:22 mediante mi host
+    # LocalForward 8080 Host1:80 # Todo el trafico entrante por el puerto local 8080 se redirecciona a Host1:80 mediante el host zte
+    # # IdentityFile ~/.ssh/targaryen.key
+    # ProxyJump HostName

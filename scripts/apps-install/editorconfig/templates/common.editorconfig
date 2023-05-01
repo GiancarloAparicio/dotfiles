@@ -1,0 +1,60 @@
+root = true
+
+[*]
+insert_final_newline = true
+trim_trailing_whitespace = true
+end_of_line = lf
+charset = utf-8
+indent_style = space
+indent_size = 4
+
+[*.{ini,py,py.tpl,rst}]
+indent_size = 2
+
+[*.py]
+max_line_length = 120
+
+[*.{htm,html,svg,blade.php}]
+indent_size = 2
+
+[*.{sh,bat.tpl,Makefile.tpl}]
+indent_style = tab
+indent_size = 4
+
+[*.{json,json5}]
+indent_size = 2
+insert_final_newline = ignore
+
+[{*.rb,Gemfile,*.js,*.erb,*.css}]
+indent_size = 2
+
+[*.{yml,yaml}]
+indent_size = 2
+
+[*.md]
+trim_trailing_whitespace = false
+
+[*.{js,jsx,ts,tsx,css,sass,scss,less,vue}]
+indent_size = 2
+block_comment_start = /**
+block_comment = *
+block_comment_end = */
+
+[*.{xml,config}]
+indent_size = 2
+
+[*.{cmd,bat}]
+end_of_line = crlf
+
+[*.sh]
+end_of_line = lf
+indent_style = tab
+
+[.git*]
+indent_style = tab
+
+shell_variant      = bash
+binary_next_line   = true  # like -bn
+switch_case_indent = true  # like -ci
+space_redirects    = true  # like -sr
+keep_padding       = false  # like -kp
