@@ -1,0 +1,8 @@
+sqlparse
+sqlformat
+mypy
+markdown
+pynvim
+autopep8
+flake8
+black

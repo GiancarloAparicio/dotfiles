@@ -1,0 +1,8 @@
+-R
+--exclude=.git
+--exclude=node_modules
+--exclude=vendor
+--exclude=*.min.js
+--links=no
+--languages=php,javascript,go,vim,python,lua
+--php-kinds=-av
