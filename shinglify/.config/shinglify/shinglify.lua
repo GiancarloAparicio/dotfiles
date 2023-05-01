@@ -1,34 +1,34 @@
 local function map(key, command)
-    key_bind(key, function() os.execute(command .. " &") end)
+  key_bind(key, function() os.execute(command .. " &") end)
 end
 
 
 local function ternary(cond, T, F)
-    if cond then return T else return F end
+  if cond then return T else return F end
 end
 
 function changeLayout()
-    local current_layout = get_tiler(get_active_screenid())
-    local layouts = {
-        -- Set current screen to grid tiling
-        tiler_grid,
-        -- Set current screen to master/stack tiling
-        tiler_masterstack,
-        -- Set current screen to tabbed tiling
-        tiler_vtabbed,
-        -- Disable tiling on the current screen
-        nil
-    }
+  local current_layout = get_tiler(get_active_screenid())
+  local layouts = {
+    -- Set current screen to grid tiling
+    tiler_grid,
+    -- Set current screen to master/stack tiling
+    tiler_masterstack,
+    -- Set current screen to tabbed tiling
+    tiler_vtabbed,
+    -- Disable tiling on the current screen
+    nil
+  }
 
-    for i, tiler in pairs(layouts) do
-        if table.concat(current_layout) == table.concat(tiler) then
-            local index = ternary(i == 3, 0, i + 1)
-            local layout = layouts[index]
+  for i, tiler in pairs(layouts) do
+    if table.concat(current_layout) == table.concat(tiler) then
+      local index = ternary(i == 3, 0, i + 1)
+      local layout = layouts[index]
 
-            set_tiler(get_active_screenid(), layout, true)
-            break
-        end
+      set_tiler(get_active_screenid(), layout, true)
+      break
     end
+  end
 end
 
 --key_bind("Mod4-space", changeLayout())
@@ -71,5 +71,7 @@ map("Mod4-shift-5", "xdotool getactivewindow set_desktop_for_window 4")
 
 --map("Mod4-control-left", "xdotool set_desktop 3")
 --map("Mod4-control-right", "xdotool set_desktop 3")
+map("Mod4-p", "/usr/bin/xflock4")
+map("Mod4-b", "bash ~/.scripts/search-files.sh")
 map("Mod4-p", "/usr/bin/xflock4")
 map("Mod4-b", "bash ~/.scripts/search-files.sh")
