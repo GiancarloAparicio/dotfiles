@@ -89,7 +89,7 @@ lvim.plugins                          = {
   {
     "nvim-neo-tree/neo-tree.nvim",
     branch = "v2.x",
-    requires = {
+    dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-tree/nvim-web-devicons",
       "MunifTanjim/nui.nvim",
@@ -137,7 +137,7 @@ lvim.plugins                          = {
 
         color_devicons = true,
         open_cmd       = 'vnew',
-        live_update    = true,         -- auto execute search again when you write any file in vim
+        live_update    = true, -- auto execute search again when you write any file in vim
         line_sep_start = '┌-----------------------------------------',
         result_padding = '¦  ',
         line_sep       = '└-----------------------------------------',
@@ -198,7 +198,7 @@ lvim.plugins                          = {
   {
     "turbio/bracey.vim",
     cmd = { "Bracey", "BracyStop", "BraceyReload", "BraceyEval" },
-    run = "npm install --prefix server",
+    build = "npm install --prefix server",
   },
   {
     "zbirenbaum/copilot-cmp",

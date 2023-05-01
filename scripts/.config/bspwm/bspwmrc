@@ -117,7 +117,6 @@ xsetroot -cursor_name left_ptr
 #################################################
 ## Auto-start
 #################################################
-
 flatpak run  org.flameshot.Flameshot   &
 redshift -P -O 4000 -b 0.9 &
 filebrowser -d ~/filebrowser.db --noauth -a 0.0.0.0 -r "$HOME/brain/🧠 Cerebro digital/300 - 🗄️ Resources/380 - 🗃️ Attachments" &

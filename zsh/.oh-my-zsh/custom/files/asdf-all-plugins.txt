@@ -89,6 +89,7 @@ clusterctl                    https://github.com/pfnet-research/asdf-clusterctl.
 cmake                         https://github.com/srivathsanmurali/asdf-cmake.git
 cmctl                         https://github.com/asdf-community/asdf-cmctl.git
 cockroach                     https://github.com/salasrod/asdf-cockroach.git
+cocoapods                     https://github.com/ronnnnn/asdf-cocoapods.git
 codefresh                     https://github.com/gurukulkarni/asdf-codefresh.git
 codeql                        https://github.com/bored-engineer/asdf-codeql.git
 colima                        https://github.com/CrouchingMuppet/asdf-colima.git
@@ -113,6 +114,7 @@ crystal                       https://github.com/asdf-community/asdf-crystal.git
 ctlptl                        https://github.com/ezcater/asdf-ctlptl.git
 ctop                          https://github.com/NeoHsu/asdf-ctop.git
 cue                           https://github.com/asdf-community/asdf-cue.git
+cyclonedx                     https://github.com/xeedio/asdf-cyclonedx.git
 dagger                        https://github.com/virtualstaticvoid/asdf-dagger.git
 dart                          https://github.com/PatOConnor43/asdf-dart.git
 dasel                         https://github.com/asdf-community/asdf-dasel.git
@@ -173,6 +175,7 @@ fillin                        https://github.com/ouest/asdf-fillin
 firebase                      https://github.com/jthegedus/asdf-firebase.git
 fission                       https://github.com/virtualstaticvoid/asdf-fission.git
 flarectl                      https://github.com/ORCID/asdf-flarectl.git
+flatc                         https://github.com/TheOpenDictionary/asdf-flatc.git
 flutter                       https://github.com/oae/asdf-flutter.git
 flux2                         https://github.com/tablexi/asdf-flux2.git
 fluxctl                       https://github.com/stefansedich/asdf-fluxctl.git
@@ -188,7 +191,7 @@ gam                           https://github.com/offbyone/asdf-gam.git
 gator                         https://github.com/MxNxPx/asdf-gator.git
 gauche                        https://github.com/sakuro/asdf-gauche.git
 gcc-arm-none-eabi             https://github.com/dlech/asdf-gcc-arm-none-eabi.git
-gcloud                        https://github.com/jthegedus/asdf-gcloud.git
+gcloud                       *https://github.com/jthegedus/asdf-gcloud.git
 getenvoy                      https://github.com/asdf-community/asdf-getenvoy.git
 ghidra                        https://github.com/Honeypot95/asdf-ghidra.git
 ghorg                         https://github.com/gbloquel/asdf-ghorg.git
@@ -409,6 +412,7 @@ ocaml                         https://github.com/asdf-community/asdf-ocaml.git
 oci                           https://github.com/yasn77/asdf-oci.git
 odin                          https://github.com/jtakakura/asdf-odin
 odo                           https://github.com/rm3l/asdf-odo.git
+okta-aws-cli                  https://github.com/bennythejudge/asdf-plugin-okta-aws-cli.git
 okteto                        https://github.com/BradenM/asdf-okteto
 om                            https://github.com/vmware-tanzu/tanzu-plug-in-for-asdf.git
 opa                           https://github.com/tochukwuvictor/asdf-opa.git
@@ -500,6 +504,7 @@ sinker                        https://github.com/elementalvoid/asdf-sinker.git
 skaffold                      https://github.com/nklmilojevic/asdf-skaffold.git
 skate                         https://github.com/chessmango/asdf-skate.git
 sloth                         https://github.com/slok/asdf-sloth.git
+smithy                        https://github.com/aws/asdf-smithy.git
 smlnj                         https://github.com/samontea/asdf-smlnj.git
 snyk                          https://github.com/nirfuchs/asdf-snyk.git
 soft-serve                    https://github.com/chessmango/asdf-soft-serve.git
@@ -585,6 +590,7 @@ upt                           https://github.com/ORCID/asdf-upt.git
 upx                           https://github.com/jimmidyson/asdf-upx.git
 usql                          https://github.com/itspngu/asdf-usql.git
 v                             https://github.com/jthegedus/asdf-v.git
+vale                          https://github.com/pdemagny/asdf-vale
 vals                          https://github.com/dex4er/asdf-vals.git
 vault                         https://github.com/asdf-community/asdf-hashicorp.git
 vcluster                      https://gitlab.com/wt0f/asdf-vcluster.git
