@@ -101,8 +101,8 @@ plugins=(
 )
 
 # Keep 1000 lines of history within the shell and save it to ~/.zsh_history:
-export HISTSIZE=2000
-export SAVEHIST=2000
+export HISTSIZE=5000
+export SAVEHIST=5000
 export HISTFILE=~/.zsh_history
 
 _include $ZSH/oh-my-zsh.sh
