@@ -1,0 +1,13 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=0.9.4
+Type=Application
+Name=Filebrowser
+Comment=
+Exec=filebrowser -d ~/filebrowser.db --noauth -a 0.0.0.0 -r "$HOME/brain/🧠 Cerebro digital/300 - 🗄️ Resources/380 - 🗃️ Attachments" &
+OnlyShowIn=XFCE;
+RunHook=0
+StartupNotify=false
+Terminal=false
+Hidden=false
+

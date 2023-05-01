@@ -153,4 +153,7 @@
     <property name="window-width" type="int" value="903"/>
     <property name="window-height" type="int" value="693"/>
   </property>
+  <property name="windowlist-menu" type="empty">
+    <property name="show-submenus" type="bool" value="false"/>
+  </property>
 </channel>
