@@ -168,6 +168,8 @@ else
 	org.onlyoffice.desktopeditors \
 	io.dbeaver.DBeaverCommunity \
 	com.axosoft.GitKraken
+
+  cp ./apps/* ~/.local/share/applications/
 fi
 
 git config --global init.defaultBranch main
