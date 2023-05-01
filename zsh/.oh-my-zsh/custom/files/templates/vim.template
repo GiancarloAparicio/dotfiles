@@ -1,0 +1,9 @@
+if exists('g:${1:nvim-files}') | finish | endif
+
+"--------------------------------- Verify vars ----------------------------------------
+"
+let s:isLinux = !has("win32")
+
+if !exists('g:pathFile')
+    let g:var1 = '~/.config/nvim/'
+endif

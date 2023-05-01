@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Xournal
+Comment=Xournal notes and editor PDF
+Icon=/home/live/Imágenes/icons/xournalpp.png
+Exec=flatpak run com.github.xournalpp.xournalpp %U
+Terminal=false
+Type=Application
+StartupNotify=true
+Categories=Network;WebBrowser;Utility;

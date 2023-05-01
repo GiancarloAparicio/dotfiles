@@ -1,0 +1,7 @@
+FROM httpd:alpine
+
+RUN mkdir -p /var/www/html
+
+RUN addgroup -g 1000 owasp && adduser -G owasp -g owasp -s /bin/sh -D owasp
+
+RUN chown owasp:owasp /var/www/html

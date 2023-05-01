@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Logseq
+Comment=Logseq notes
+Icon=/home/live/Imágenes/icons/logseq.png
+Exec=logseq %U
+Terminal=false
+Type=Application
+StartupNotify=true
+MimeType=x-scheme-handler/logseq
+Categories=Network;WebBrowser;Utility;

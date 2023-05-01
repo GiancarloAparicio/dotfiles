@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+
+    <title>{{FILE}}</title>
+		<meta name="viewport" content="width=device-width, user-scalable=no" />
+		<meta name="description" content="Page" />
+		<meta name="author" content="{{NAME}}" />
+
+		<link rel="stylesheet" href="css/main.css?v=1.0" />
+	</head>
+
+	<body>
+    {{CURSOR}}
+		<script src="js/main.js"></script>
+	</body>
+</html>
+

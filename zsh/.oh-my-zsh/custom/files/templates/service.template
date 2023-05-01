@@ -1,0 +1,22 @@
+[Unit]
+Description=Description to daemon
+Documentation=See documentation
+After=network.target daemon1.service daemonN.service
+
+[Service]
+Environment=NODE_PORT=3001
+Type=simple
+User=root
+WorkingDirectory=/path/yourservice
+ExecStart=/bin/bash my_service.sh --start
+Restart=on-failure
+
+# limit CPU and RAM quota for our service
+#CPUAccounting=true
+#CPUQuota=10%
+#MemoryAccounting=true
+#MemoryLimit=50M
+
+[Install]
+WantedBy=multi-user.target
+Alias={{FILE}}

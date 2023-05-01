@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Boxes
+Comment=Maquinas virtuales qemu
+Icon=/home/live/Imágenes/icons/boxes.png
+Exec=flatpak run org.gnome.Boxes %U
+Terminal=false
+Type=Application
+StartupNotify=true
+Categories=Network;WebBrowser;Utility;

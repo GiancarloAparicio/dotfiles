@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=Zotero
+Comment=Citas zotero
+Icon=/home/live/Imágenes/icons/zotero.png
+Exec=flatpak run org.zotero.Zotero %U
+Terminal=false
+Type=Application
+StartupWMClass=zotero
+StartupNotify=true
+MimeType=x-scheme-handler/zotero;
+Categories=Network;WebBrowser;Utility;

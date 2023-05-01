@@ -1,0 +1,19 @@
+import React, {useState} from 'react';
+
+const {{FILE}} = ({name='Default'}) => {
+
+  const [state, setState] = useState(' ')
+
+  return(
+		<>
+			{{CURSOR}}
+		</>
+	);
+}
+
+{{FILE}}.propTypes = {
+  name: PropTypes.string
+}
+
+export default {{FILE}};
+

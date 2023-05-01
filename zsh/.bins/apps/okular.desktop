@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Okular
+Comment=Okular lector PDF
+Icon=/home/live/Imágenes/icons/okular.png
+Exec=flatpak run org.kde.okular %U
+Terminal=false
+Type=Application
+StartupNotify=true
+Categories=Network;WebBrowser;Utility;

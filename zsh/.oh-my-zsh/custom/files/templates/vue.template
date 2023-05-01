@@ -1,0 +1,47 @@
+<template>
+	<div>
+		{{CURSOR}}
+	</div>
+</template>
+
+<script>
+
+	const data = () => ({
+		//
+	});
+
+	const methods = {
+		//
+	};
+
+	const props = {
+		//
+	};
+
+	const components = {
+		//
+	};
+
+	const computed = {
+		//
+	};
+
+	const watch = {
+		//
+	};
+
+	export default {
+		name: "{{FILE}}",
+		data,
+		props,
+		components,
+		computed,
+		watch,
+		methods,
+	};
+</script>
+
+<style scoped lang="scss">
+
+</style>
+
