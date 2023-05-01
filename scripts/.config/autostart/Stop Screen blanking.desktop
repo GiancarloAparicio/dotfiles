@@ -1,0 +1,13 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=0.9.4
+Type=Application
+Name=Stop Screen blanking
+Comment=Stop Screen blanking
+Exec=xset -dpms s off s noblank s 0 0 s noexpose
+OnlyShowIn=XFCE;
+RunHook=0
+StartupNotify=false
+Terminal=false
+Hidden=true
+

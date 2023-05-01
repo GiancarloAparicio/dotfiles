@@ -1,0 +1,32 @@
+#!/bin/bash
+
+directory="/tmp/split/"
+file="$(mktemp).txt"
+touch $file
+mkdir -p $directory
+
+if [ "$@" ]; then
+    page=$1
+
+    python3 -m justext -s Spanish -o "$file" $page
+else
+    xclip -selection c -o | tr '\n' ' ' | tr -d '-' | tr '.' '\n' >$file
+fi
+
+cd $directory
+split -l 16 $file
+
+killall -9 play
+killall -9 edge-tts
+
+for allfiles in "$directory*"; do
+    for file in $allfiles; do
+        #   $HOME/.local/bin/edge-tts --voice es-MX-JorgeNeural -f $file | play -t mp3 - tempo 1.25
+        #	$HOME/.local/bin/edge-tts --voice es-MX-LorenzoEsCLNeural -f $file | play -t mp3 - tempo 1.2
+        $HOME/.local/bin/edge-tts --voice es-MX-DaliaNeural -f $file | play -t mp3 - tempo 1.15
+
+    done
+done
+
+rm -r /tmp/split
+rm $file

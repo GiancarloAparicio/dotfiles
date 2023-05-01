@@ -1,0 +1,26 @@
+session: Dev
+
+root: .
+
+windows:
+    - name: docker
+      layout: tiled
+      commands:
+          - clear
+      panes:
+          - type: horizontal
+            root: .
+            commands:
+                - clear
+          - type: vertical
+            root: .
+            commands:
+                - clear
+
+    - name: nvim
+      layout: tiled
+      commands:
+          - nvim
+
+    - name: custom
+      layout: tiled

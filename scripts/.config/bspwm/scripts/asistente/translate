@@ -1,0 +1,11 @@
+#!/bin/bash
+
+file="$(mktemp).txt"
+
+xclip -selection c -o | tr '\n' ' ' | tr -d '-' | tr '.' '\n' >$file
+
+resp=$(cat $file | $HOME/.local/bin/argos-translate --from-lang en --to-lang es)
+
+zenity --info --text="$resp" --width=650 --modal
+
+rm $file
