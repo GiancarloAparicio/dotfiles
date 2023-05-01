@@ -29,7 +29,6 @@ install portaudio19-dev lxpolkit suckless-tools xdo network-manager tesseract-oc
 #-------------------------------------------------------------------
 # Config bspwm and sxhkd
 echo -e "${CYAN}Create bspwm${ENDCOLOR}"
-mkdir -p ~/.config/{polybar,picom,bspwm,sxhkd,dunst,rofi,compton,bspwm/scripts}
 pip3 install pyperclip
 
 # Install bspwm
@@ -69,43 +68,7 @@ sudo ninja -C build install
 cd ..
 sudo rm -r -f repo-picom
 
-#-------------------------------------------------------------------
-# Copy file config
-cd $repo
-cp ./scripts/asistente/screen_ts ~/.local/bin/screen_ts
-cp ./scripts/toggle-app.sh ~/.local/bin/toggle-app.sh
-cp ./scripts/asistente/transale ~/.local/bin/translate
-cp ./scripts/asistente/tts ~/.local/bin/tts
-cp ./scripts/asistente/multi.py ~/.local/bin/multi.py
-cp ./scripts/asistente/voice_to_text.py ~/.local/bin/voice_to_text
-chmod +x ~/.local/bin/voice_to_text
-chmod +x ~/.local/bin/toggle-app.sh
-chmod +x ~/.local/bin/multi.py
-chmod +x ~/.local/bin/tts
-chmod +x ~/.local/bin/translate
-chmod +x ~/.local/bin/screen_ts
-
-cp -f ./rofi_config ~/.config/rofi/config
-cp -u -f .xsessionrc ~/.xsessionrc
-
-cp -f ./bspwmrc ~/.config/bspwm/
-chmod +x $HOME/.config/bspwm/bspwmrc
-
-cp -f ./sxhkdrc ~/.config/sxhkd
-cp -f ./sxhkdrc.common ~/.config/sxhkd
-chmod +x $HOME/.config/sxhkd/sxhkdrc
-chmod +x $HOME/.config/sxhkd/sxhkdrc.common
-
-cp -f ./dunstrc ~/.config/dunst
-chmod +x $HOME/.config/dunst/dunstrc
-
-cp -f -r ./scripts/* ~/.config/bspwm/scripts
-
 sudo mkdir -p /opt/{wallpapers,simple,fonts}
-sudo cp -r -f $repo/Wallpapers/* /opt/wallpapers
-
-cp -u -f ./compton.conf ~/.config/compton/
-cp -u -f ./picom.conf ~/.config/compton/
 
 #-------------------------------------------------------------------
 # Install polybar themes
@@ -114,10 +77,6 @@ cd ~/polybar-themes
 chmod +x setup.sh
 bash setup.sh
 sudo rm -r -f ~/polybar-themes
-
-#Execute polybar
-cp -u -f $repo/shapes/* $HOME/.config/polybar/shapes/
-cp -u -f $repo/shades/* $HOME/.config/polybar/shades/
 
 #-------------------------------------------------------------------
 # Install bsp-layout
@@ -135,8 +94,6 @@ sudo make install || exit 1
 for dep in bc bspc; do
     !(which $dep >/dev/null 2>&1) && echo "[Missing dependency] bsp-layout needs $dep installed"
 done
-
-sudo rm -r -f /opt/polybar "$TMP_DIR"
 
 echo "Elegir color:"
 bash ~/.config/polybar/shapes/scripts/color-switch.sh
