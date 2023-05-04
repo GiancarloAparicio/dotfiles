@@ -17,7 +17,7 @@ docker-ip(){
 docker-logs(){
     container_name=$(_get-container-name -a)
     [ -z "${container_name}" ] && return
-    docker logs --follow --details --tail 1800 $container_name | ccze -m ansi | less
+    docker logs --follow --details --tail 1800 $container_name | less
 }
 
 _if_container_run(){
