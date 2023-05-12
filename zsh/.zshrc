@@ -40,13 +40,13 @@ ZSH_THEME="agnoster"
 
 # Uncomment the followi line to use hyphen-insensitive completion.
 # Case-sensitive completion must be off. _ and - will be interchaeable.
-# HYPHEN_INSENSITIVE="true"
+HYPHEN_INSENSITIVE="true"
 
 # Uncomment the followi line to disable bi-weekly auto-update checks.
-DISABLE_AUTO_UPDATE="true"
+#DISABLE_AUTO_UPDATE="true"
 
 # Uncomment the followi line to automatically update without prompti.
-# DISABLE_UPDATE_PROMPT="true"
+DISABLE_UPDATE_PROMPT="true"
 
 # Uncomment the followi line to chae how often to auto-update (in days).
 export UPDATE_ZSH_DAYS=30
@@ -61,10 +61,10 @@ export UPDATE_ZSH_DAYS=30
 # DISABLE_AUTO_TITLE="true"
 
 # Uncomment the followi line to enable command auto-correction.
-#ENABLE_CORRECTION="true"
+ENABLE_CORRECTION="true"
 
 # Uncomment the followi line to display red dots whilst waiti for completion.
-#COMPLETION_WAITI_DOTS="true"
+COMPLETION_WAITI_DOTS="true"
 
 # Uncomment the followi line if you want to disable marki untracked files
 # under VCS as dirty. This makes repository status check for large repositories
@@ -106,6 +106,7 @@ export SAVEHIST=5000
 export HISTFILE=~/.zsh_history
 
 _include $ZSH/oh-my-zsh.sh
+_include $ZSH/custom/better-completion.zsh
 alias debian='proot-distro login --termux-home --fix-low-ports debian'
 
 for file in $HOME/.oh-my-zsh/custom/source/**/*.zsh; do
