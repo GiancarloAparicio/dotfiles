@@ -170,6 +170,9 @@ else
 	com.axosoft.GitKraken
 
   cp ./apps/* ~/.local/share/applications/
+  mkdir -p /mnt/Drive 
+  sudo chown $USER:$USER /mnt/Drive
+
 fi
 
 git config --global init.defaultBranch main
