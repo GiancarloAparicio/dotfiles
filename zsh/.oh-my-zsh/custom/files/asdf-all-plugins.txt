@@ -621,7 +621,7 @@ xcodes                        https://github.com/younke/asdf-xcodes.git
 xh                            https://github.com/NeoHsu/asdf-xh
 yadm                          https://github.com/particledecay/asdf-yadm.git
 yamllint                      https://github.com/ericcornelissen/asdf-yamllint.git
-yarn                          https://github.com/twuni/asdf-yarn.git
+yarn                         *https://github.com/twuni/asdf-yarn.git
 yay                           https://github.com/aaaaninja/asdf-yay.git
 yj                            https://github.com/ryodocx/asdf-yj.git
 yor                           https://github.com/ordinaryexperts/asdf-yor

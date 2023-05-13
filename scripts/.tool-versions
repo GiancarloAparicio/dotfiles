@@ -1,5 +1,6 @@
 neovim nightly
 lazygit 0.37.0
 tmux 3.3
-nodejs 16.9.1
+nodejs 18.1.0
 gcloud 426.0.0
+yarn 1.22.19

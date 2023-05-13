@@ -89,6 +89,7 @@ ZSH_CUSTOM=~/.oh-my-zsh/custom
 # Add wisely, as too many plugins slow down shell startup.
 
 plugins=(
+    asdf 
     gitignore
     docker
     docker-compose
