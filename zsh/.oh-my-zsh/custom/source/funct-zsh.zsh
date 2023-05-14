@@ -23,7 +23,7 @@ toggle-app(){
     DESKTOP=$(xdotool get_desktop_for_window $id 2>/dev/null)
 
     if [[ $DESKTOP = "$(xdotool get_desktop)" ]]; then
-   
+
       echo "Ocultar"
       xdotool set_desktop_for_window $id 4
     else
@@ -32,16 +32,6 @@ toggle-app(){
     fi
 
   done
-
-}
-
-cd(){
-    # if not exist parameter
-    if [ -z "$1" ]; then
-        z $HOME 
-    else
-        z "$@"
-    fi
 
 }
 
@@ -401,7 +391,7 @@ sd(){
     if command -v sd &> /dev/null
     then
         sd $oldWord $newWord $files
-    else 
+    else
 
         find $(pwd) -name "${files}" -exec sed -i "s/$oldWord/$newWord/g" {} \;
     fi
