@@ -1,7 +1,7 @@
 #-------------------------------------------------------------------
 # Helpers
 _get-path-resource() {
-local resource=$(fd -c always --follow $1 -E $FZF_IGNORE | _fzf-show --prompt 'Resource> '| sed 's/ /\\ /g' | sed 's/(/\\(/g' | sed 's/)/\\)/g')
+local resource=$(fd -c always -i -I -H --follow $1 -E $FZF_IGNORE | _fzf-show --prompt 'Resource> '| sed 's/ /\\ /g' | sed 's/(/\\(/g' | sed 's/)/\\)/g')
     [ -z "${resource}" ] && return
 
     LBUFFER="${LBUFFER} ${resource} "

@@ -77,7 +77,7 @@ fhistory(){
 
 ffile(){
     local file
-    file=$(fd -t f -H -E "$FZF_IGNORE" | fzf -m --reverse --preview '[[ $(file --mime {}) =~ binary ]] &&
+    file=$(fd -c always  -t f -i -I -L -H -E "$FZF_IGNORE" | fzf -m --reverse --preview '[[ $(file --mime {}) =~ binary ]] &&
 	                         echo {} is a binary file ||
 	                         ($HOME/.local/share/zinit/plugins/sharkdp---bat/bat/bat --style=numbers --color=always {} ||
 	                          highlight -O ansi -l {} ||

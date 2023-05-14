@@ -57,7 +57,7 @@ draw(){
 
 find-text(){
     if [ -x "$(command -v ag)" ]; then
-        ag -i "$@"
+        ag -f -i "$@"
     else
         grep "$@" **/*.* 2>/dev/null
     fi
