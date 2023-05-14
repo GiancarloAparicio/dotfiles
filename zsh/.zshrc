@@ -129,6 +129,8 @@ ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 source "${ZINIT_HOME}/zinit.zsh"
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
+autoload -U +X bashcompinit && bashcompinit
+autoload -U +X compinit && compinit
 
 if [[ ! -d "~/.local/share/zinit/plugins" ]]; then
 
@@ -187,5 +189,3 @@ setopt SHARE_HISTORY # Share history between session/terminals
 [[ ! -f ~/.p10k.zsh ]] || _include ~/.p10k.zsh
  [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 enable-fzf-tab
-
-eval "$(zoxide init bash)"
