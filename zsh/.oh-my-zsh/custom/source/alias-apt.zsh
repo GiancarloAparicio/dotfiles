@@ -31,13 +31,13 @@ auto-clean(){
     sudo apt autoclean -y
 
     # Run in background next commands to avoid wait
-    sudo apt update -y &
-    sudo apt upgrade -y &
-    sudo apt dist-upgrade -y &
-    sudo apt full-upgrade -y &
-    sudo apt autoremove -y &
-    sudo apt autoclean -y &
-    sudo apt clean -y &
+    sudo apt update -y 
+    sudo apt upgrade -y 
+    sudo apt dist-upgrade -y
+    sudo apt full-upgrade -y 
+    sudo apt autoremove -y 
+    sudo apt autoclean -y 
+    sudo apt clean -y 
 
     [ -d /var/cache/apt/archives/partial ] && sudo rm -rf /var/cache/apt/archives/partial/*
 
