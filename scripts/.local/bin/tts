@@ -21,9 +21,9 @@ killall -9 edge-tts
 
 for allfiles in "$directory*"; do
     for file in $allfiles; do
-        #   $HOME/.local/bin/edge-tts --voice es-MX-JorgeNeural -f $file | play -t mp3 - tempo 1.25
-        #	$HOME/.local/bin/edge-tts --voice es-MX-LorenzoEsCLNeural -f $file | play -t mp3 - tempo 1.2
-        $HOME/.local/bin/edge-tts --voice es-MX-DaliaNeural -f $file | play -t mp3 - tempo 1.15
+        #   $HOME/.local/bin/edge-tts --voice es-MX-JorgeNeural -f $file | play -t mp3 - tempo 1.3
+        #	$HOME/.local/bin/edge-tts --voice es-MX-LorenzoEsCLNeural -f $file | play -t mp3 - tempo 1.3
+        $HOME/.local/bin/edge-tts --voice es-MX-DaliaNeural -f $file | play -t mp3 - tempo 1.3
 
     done
 done
