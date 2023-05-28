@@ -1,5 +1,5 @@
 favorites=lite-updates.desktop,lite-manual.desktop
-recent=plank.desktop,xfce-keyboard-settings.desktop,md.obsidian.Obsidian.desktop,xfce-backdrop-settings.desktop,xfce-workspaces-settings.desktop,xfce-ui-settings.desktop,xfce-display-settings.desktop,gnome-system-log.desktop,timeshift-gtk.desktop,xfce-wmtweaks-settings.desktop
+recent=Alacritty.desktop,plank.desktop,xfce-keyboard-settings.desktop,md.obsidian.Obsidian.desktop,xfce-backdrop-settings.desktop,xfce-workspaces-settings.desktop,xfce-ui-settings.desktop,xfce-display-settings.desktop,gnome-system-log.desktop,timeshift-gtk.desktop
 button-title=\ Aplicaciones\ 
 button-icon=xfce-wm-menu
 button-single-row=false
