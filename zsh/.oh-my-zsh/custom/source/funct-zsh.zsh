@@ -1,6 +1,15 @@
 #-------------------------------------------------------------------
 # Functions ZSH
 
+neo(){
+  if command -v  macchina >/dev/null 2>&1; then
+    macchina -S -K -U -C
+  else 
+    neofetch
+  fi
+
+}
+
 toggle-app(){
   # Nombre de la aplicación a buscar
   APP_NAME="$1"
@@ -251,51 +260,42 @@ ssh-copy-file(){
             r)
 
                 echo "Copia archivos del servidor a local "
-                if [ -z "${user_host}" ]; then
+
+                if (( ${#user_host} <= 2 )); then
                     read "user? Enter user:  "
                     read "host? Enter host:  "
                     read "file? Enter path to remote file:  "
-                    read "path? Enter local path to save [default ./]:  "
+                    read "ruta? Enter local path to save [default ./]:  "
 
-                    user_host="$user@$host:$file"
+                    connection="$user@$host:$file"
                 fi
-                echp "scp -r $user_host $path"
-                scp -r $user_host $path
+                echo "scp -P 22 -r $connection $ruta"
+                scp -P 22 -r $connection $ruta
                 return
                 ;;
             l)
-
                 echo "Copia archivos de local a servidor"
-                if [ -z "${user_host}" ]; then
+
+                if (( ${#user_host} <= 2 )); then
                     read "user? Enter user:  "
                     read "host? Enter host:  "
                     read "file? Enter path to local file:  "
-                    read "path? Enter remote path to save [default ./]:  "
+                    read "ruta? Enter remote path to save [default ./]:  "
 
-                    user_host="$user@$host:$file"
+                    conection="$user@$host:$ruta"
                 fi
-                echo "scp -r $path $user_host"
-                scp -r $path $user_host
+                echo "scp -P 22 -r $file $conection"
+                scp -P 22 -r $file $conection
                 return
                 ;;
 
-            *)
-                echo "Copia archivos del servidor a local "
-                if [ -z "${user_host}" ]; then
-                    read "user? Enter user:  "
-                    read "host? Enter host:  "
-                    read "file? Enter path to remote file:  "
-                    read "path? Enter local path to save [default ./]:  "
-
-                    user_host="$user@$host:$file"
-                fi
-                echo "scp -r $user_host $path"
-                scp -r $user_host $path
-                return
-                ;;
         esac
     done
 
+    echo "Las opciones validas son:"
+    echo "      * -h: Muestra el menu de ayuda "
+    echo "      * -r: Copia archivos del servidor a local "
+    echo "      * -l: Copia archivos de local a servidor"
 
    # if ! [ -x "$(command -v rsync)" ]; then
    #     scp $@
@@ -653,3 +653,5 @@ function man() {
     LESS_TERMCAP_us=$'\e[01;32m' \
     man "$@"
 }
+
+
