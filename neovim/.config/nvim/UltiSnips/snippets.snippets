@@ -1,0 +1,11 @@
+snippet fileName "Obtener el nombre del archivo donde se ejecutara el snippet" 
+\`!p snip.rv = snip.basename or "untitled"\`
+endsnippet
+
+snippet upperCase "Define la primera letra en mayuscula, title => Title"
+\${1/\w+/\u$0/g}
+endsnippet
+
+snippet camelcase "(Interpolacion con python) Todas las mayusculas las transforma en '-', FooBar => foo-bar"
+\${1/([a-z]*)([A-Z]+)/(?1:$1-)\L$2\E/g}
+endsnippet

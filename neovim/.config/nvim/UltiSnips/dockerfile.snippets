@@ -1,0 +1,12 @@
+snippet dockerfile-nginx "Crear una imagen dockerfile basicas (Nnginx/Apache)"
+FROM nginx:stable-alpine
+
+ADD ./nginx/nginx.conf /etc/nginx/nginx.conf
+ADD ./nginx/default.conf /etc/nginx/conf.d/default.conf
+
+RUN mkdir -p /var/www/html
+
+RUN addgroup -g 1000 ${1:laravel} && adduser -G ${1:laravel} -g ${1:laravel} -s /bin/sh -D ${1:laravel}
+
+RUN chown ${1:laravel}:${1:laravel} /var/www/html
+endsnippet

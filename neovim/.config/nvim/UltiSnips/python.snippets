@@ -1,0 +1,303 @@
+snippet writeFile "Escrite un contenido en un archivo" b
+file = open("demofile2.txt", "a")
+file.write("Now the file has more content!")
+file.close()
+endsnippet
+
+snippet constructor "Constructor de una clase" b
+		def __init__(self):
+				print("New class")
+endsnippet
+
+snippet runShell "Ejecuta un comando en la terminal sin obtener el resultado" b
+import os
+
+os.system("ls -lh")
+endsnippet
+
+snippet getOutputShell "Ejecutar un comando en la terminal y obtiene el resultado" b
+import subprocess
+
+filename = subprocess.getoutput("ls -l")
+endsnippet
+
+snippet runShellGet "Ejecutar un comando en la terminal y obtiene el resultado" b
+import subprocess
+
+filename = subprocess.getoutput("ls -l")
+endsnippet
+
+
+snippet systemComandGetOutput "Ejecutar un comando en la terminal y obtiene el resultado" b
+import subprocess
+
+filename = subprocess.getoutput("ls -l")
+endsnippet
+
+
+snippet ifArg "Define si existe un argumento cualquiera" b
+import sys
+
+if len(sys.argv) > 1:
+    print("Exite por lo menos 1 parametro")
+else:
+    print("Ningun parametro")
+endsnippet
+
+snippet readFileRegex "Lee un archivo y usa regex para analizar el contenido" b
+home = os.path.expanduser("~")
+file = f"{home}/file.txt"
+
+def find_text(file, regexp):
+
+    # Open file as file object and read to string
+    file = open(f"{self.fullfile}", "r")
+
+    # Read file object to string
+    text = file.read()
+
+    # Close file object
+    file.close()
+
+    # Regex pattern
+    pattern = re.compile(
+        regexp,
+        re.MULTILINE,
+    )
+
+    matchs = pattern.finditer(text)
+
+    return matchs
+
+matchs=find_text(file, regexp)
+
+for data in matchs:
+		print(data.group(1))
+
+endsnippet
+
+snippet readFileAll "Lee un archivo entero" b
+home = os.path.expanduser("~")
+text = open(f"{home}/.config/nvim/UltiSnips/{filename}", "r")
+print(text.read())
+
+endsnippet
+
+snippet readJson "Lee un archivo JSON" b
+import json
+
+f = open('data.json')
+
+# returns JSON object as  a dictionary
+data = json.load(f)
+
+# Iterating through the json list
+for i in data['row_json']:
+    print(i)
+
+f.close()
+endsnippet
+
+snippet getHTMLtoUrl "Obtiene el contenido HTML de una pagina" b
+import requests
+
+url = '${1:https://www.google.com/}'
+response = requests.get(url)
+response.text
+endsnippet
+
+snippet readFileLineToLine "Recorra el archivo línea por línea" b
+f = open("demofile.txt", "r")
+for x in f:
+  print(x)
+
+f.close()
+endsnippet
+
+snippet findStringInFile "Busca un string o un patron en un archivo en VARIAS LINEAS y imprime los matchs en grupos" b
+def find_string_in_file(fullfile):
+    print(f"File: {fullfile}")
+
+    # Open file as file object and read to string
+    file = open(fullfile, "r")
+
+    # Read file object to string
+    text = file.read()
+
+    # Close file object
+    file.close()
+
+    #  pattern
+    pattern = re.compile(
+        r"(.*)::(.*)",
+        re.MULTILINE,
+    )
+
+    for match in pattern.finditer(text):
+        print(f"Group 1:{match.group(1)}")
+        print(f"Group 2:{match.group(2)}")
+endsnippet
+
+
+snippet findStringInFile "Busca un string o un patron en un archivo LINEA por LINEA y imprime los matchs en grupos" b
+def find_string_in_file(fullfile):
+    p = "\!?\[(.*)\]\(.*\)"
+    print(f"File: {fullfile}")
+
+    with open(fullfile) as temp_f:
+        datafile = temp_f.readlines()
+
+    for line in datafile:
+        matchs = re.findall(p, line)
+
+        if matchs:
+            for group in matchs:
+                print(group[1])
+                print(group[2])
+endsnippet
+
+snippet replaceStringInFile "Reemplaza un string en un file" b
+def replace_string_in(fullfile, old_string, new_string):
+    print(f"old: {old_string}")
+    print(f"new: {new_string}")
+
+    fin = open(fullfile, "rt")
+    data = fin.read()
+    data = data.replace(old_string.strip(), new_string.strip())
+    fin.close()
+
+    fin = open(fullfile, "wt")
+    fin.write(data)
+    fin.close()
+endsnippet
+
+snippet ifDirectoryExist "Verifica si un directorio existe" b
+dirname = '/path/to/dir'
+
+if os.path.exists(dirName) and os.path.isdir(dirName):
+    if not os.listdir(dirName):
+        print(f"Borrando directorio vacio {dirname}.")
+        os.rmdir(dirname)
+    else:
+        print(f"Directorio {dirname} no vacio.")
+else:
+    print(f"El directorio {dirname} no existe.")
+endsnippet
+
+snippet ifFileExist "Description" b
+filename="/path/file.txt"
+
+if os.path.exists(fileName):
+    print("exist")
+else:
+    print("not exist")
+endsnippet
+
+snippet findInString "Busca una palabra en un string" b
+line = "Untitled%2010.png"
+
+if "untitle".lower() in line.lower():
+    print("match")
+endsnippet
+
+snippet ifFileEmpty "Verifica si un archivo esta vacio" b
+if  os.stat('./${1:myarchivo.txt}').st_size == 0:
+    print("File empty")
+endsnippet
+
+snippet ifNotExistFile "Verifica si un archivo NO existe" b
+if not os.path.isfile(./${1:fileName}):
+    print("not exist")
+else:
+    print("yes exist")
+endsnippet
+
+snippet ifNotExistDir "Verifica si un directorio NO existe" b
+if not os.path.exists("./${1:directory}):
+    print("not exist")
+else:
+    print("yes exist")
+endsnippet
+
+
+snippet find_file "Función para buscar un archivo en la ruta actual" b
+def find_file(name):
+    for dirpath, dirs, files in os.walk("./"):
+        for filename in files:
+            fname = os.path.join(dirpath, filename)
+            if fname.endswith(name):
+                return fname
+
+endsnippet
+
+snippet regexpSimple "Regexp simple para un line o string" b
+text = "The rain in Spain"
+matchs = re.findall("^(.*)", text)[0]
+if matchs:
+    text = text.replace(f"^{matchs}", "")
+print(x[0])
+endsnippet
+
+snippet regexp "Regexp compuesta para un archivo o varios grupos" b
+text = "text ..."
+regexp="^match"
+
+matchs = re.findall(regexp, text)
+
+for group in matchs:
+    print(f"1: {group[0]}")
+    print(f"2: {group[1]}")
+endsnippet
+
+snippet uuid "Genera un UUID como un string" b
+key=str(uuid.uuid4())
+endsnippet
+
+snippet docs "Documenta una funcion" b
+""" ${1:Description funcion}
+		Args:
+			n1 (type): Description
+			n2 (type): Description
+		Returns:
+			type: Description
+"""
+endsnippet
+
+snippet execption "Lanza una error en n" b
+raise Exception("Ocurrio un error")
+endsnippet
+
+snippet ifExtension "Verifica que el nombre de un archivo termina con..." b
+file='./path/file.png'
+extensionFile = file.lower().endswith(
+        (".png", ".jpg", ".jpeg", ".pdf", ".mp4", ".csv", ".xlsx", ".mp3")
+    )
+
+    if extensionFile:
+        print(f"only move: {file}")
+
+    else:
+				print("File not end with extension")
+endsnippet
+snippet read "Lee el input ingresado por el usuario" b
+${1:answer} = input("Question?: ")
+print(f"Response, {${1:answer}}")
+endsnippet
+
+snippet listFicheros "genera los nombres de los archivos en un árbol de directorios recorriendo el árbol de arriba hacia abajo" b
+directory="./"
+for root, dirs, files in os.walk(directory, topdown=False):
+   for name in files:
+      print(os.path.join(root, name))
+   for name in dirs:
+      print(os.path.join(root, name))
+endsnippet
+
+snippet walk "genera los nombres de los archivos en un árbol de directorios recorriendo el árbol de arriba hacia abajo" b
+directory="./"
+for root, dirs, files in os.walk(directory, topdown=False):
+   for name in files:
+      print(os.path.join(root, name))
+   for name in dirs:
+      print(os.path.join(root, name))
+endsnippet

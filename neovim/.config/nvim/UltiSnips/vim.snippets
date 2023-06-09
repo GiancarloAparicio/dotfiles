@@ -1,0 +1,105 @@
+snippet termux "Si el sistema SI es GNU/Linux entonces" b
+if system('uname -o') =~? "GNU/Linux"
+  " Solo para GNU/Linux
+	echo "Linux"
+endif
+endsnippet
+
+snippet read "Le pide al usario que ingrese un valor" b
+let l:input = input('Content question:', '', 'file')
+endsnippet
+
+snippet zsh "Ejecuta un comando en la terminal zsh" b
+silent execute  '!zsh -c ". ~/.zshrc; ' . a:${1:command} . ' "; '
+endsnippet
+
+snippet exec "Ejecuta un comando en la terminal zsh" b
+silent execute  '!zsh -c ". ~/.zshrc; ' . a:${1:command} . ' "; '
+endsnippet
+
+snippet exists "Si variable no existe entonces..."
+if !exists('g:${1:variable}')
+	let g:${1:variable} = 'value'
+endif
+endsnippet
+
+snippet python "Ejecuta comandos de python"
+python[3] << MARKER
+import vim
+import random
+
+idx = random.randint(0, int(vim.eval('a:maxLen')))
+vim.command("let index = %s"% idx)
+
+${1:print('Hello')}
+MARKER
+endsnippet
+
+snippet bash "Ejecuta comandos bash"
+!${1:cat file.txt}
+endsnippet
+
+snippet regExp "Description" b
+if input(" Do you want quit? [y/N]") =~? '^y\%[es]$'
+  !run command
+endif
+
+" Clear prompt
+echon ''
+endsnippet
+
+snippet getFullFilename "Obtiene el nombre completo del archivo actual"
+
+" Get full name current file
+if expand('%:t') =~? 'blade.php$'
+  !blade-formatter --write --ignore-unknown %
+else
+  !prettier --parser=php --write --ignore-unknown %
+endif
+
+" Clear prompt
+echon ''
+endsnippet
+
+snippet titleCase "Convierte la variable o texto en title case"
+substitute(a:str,'\(\<\w\+\>\)', '\u\1', 'g')
+endsnippet
+
+snippet upperCase "Convierte la variable o texo en uppercase"
+toupper(a:str)
+endsnippet
+
+snippet upperCase "Convierte la variable o texo en lowercase"
+tolower(a:str)
+endsnippet
+
+snippet separator "Separador para vim"
+"#-----------------------------------------------------------------
+"# ${1:Content}
+endsnippet
+
+snippet wrapperAutoSave "Envoltorio para ejecutar un comando bash automaticamente solo cuando se guarde un tipo archivo especificado"
+" Function exec ${1:command}
+function ${1/\w+/\u/g}Cursor()
+	let save_pos = getpos(".")
+	!${2:run command}  " Hace referencia al archivo actual ( ./% )
+	call setpos('.', save_pos)
+	redraw
+	edit!
+endfunction
+
+autocmd BufwritePre *.${3:extension} call ${1/\w+/\u/g}
+endsnippet
+
+snippet command "Define un nuevo comando que se puede ejecutar en vim"
+" Function exec ${1:command}
+function! s:${1:NameFunction}()
+	!${2:run commandExample}
+	" expand( % ) Hace referencia a la ruta completa del archivo actual
+	" expand( %:t ) Hace referencia a la ruta solo al nombre del archivo actual
+	" expand( %:h ) Hace referencia a la ruta del archivo.
+endfunction
+
+" Define custom command
+command -nargs=1 -complete=file -bar ${3:NameCommand}  call s:${1:NameFUnction}(<f-args>)
+endsnippet

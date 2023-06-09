@@ -1,0 +1,201 @@
+{
+  "diagnostic.displayByAle": true,
+  "suggest.enablePreview": true,
+  "suggest.maxPreviewWidth": 350,
+  "suggest.maxCompleteItemCount": 30,
+  "suggest.labelMaxLength": 450,
+  "suggest.noselect": false,
+  "coc.preferences.rootPatterns": [" .git ", " .hg ", " .projections.json "],
+  "coc.preferences.formatOnSaveFiletypes": [
+    "jsonc",
+    "json",
+    "javascript",
+    "javascriptreact",
+    "typescriptreact",
+    "typescript",
+    "css",
+    "less",
+    "scss",
+    "json",
+    "graphql",
+    "Markdown",
+    "vue",
+    "yaml",
+    "html"
+  ],
+
+  "html.autoClosingTags": true,
+
+  "tailwindCSS.headwind.removeDuplicates": true,
+  "tailwindCSS.headwind.runOnSave": false,
+  "tailwindCSS.trace.server": "verbose",
+  "tailwindCSS.emmetCompletions": "on",
+  "tailwindCSS.cssLanguages": [
+    "css",
+    "less",
+    "postcss",
+    "sass",
+    "scss",
+    "stylus",
+    "vue"
+  ],
+  "tailwindCSS.jsLanguages": [
+    "javascript",
+    "javascriptreact",
+    "reason",
+    "typescriptreact"
+  ],
+  "tailwindCSS.htmlLanguages": [
+    "blade",
+    "edge",
+    "eelixir",
+    "ejs",
+    "elixir",
+    "elm",
+    "erb",
+    "eruby",
+    "haml",
+    "handlebars",
+    "htmldjango",
+    "html",
+    "jade",
+    "leaf",
+    "markdown",
+    "php",
+    "razor",
+    "slim",
+    "svelte",
+    "twig",
+    "vue"
+  ],
+
+  "vetur.format.options.useTabs": true,
+
+  "prettier.arrowParens": "always",
+  "prettier.bracketSpacing": true,
+  "prettier.htmlWhitespaceSensitivity": "css",
+  "prettier.jsxBracketSameLine": false,
+  "prettier.jsxSingleQuote": true,
+  "prettier.printWidth": 130,
+  "prettier.proseWrap": "preserve",
+  "prettier.semi": true,
+  "prettier.singleQuote": true,
+  "prettier.trailingComma": "es5",
+  "prettier.useTabs": true,
+  "prettier.ignorePath": ".gitignore",
+  "prettier.tabWidth": 2,
+  "prettier.phpVersion": "7.4",
+  "prettier.trailingCommaPHP": false,
+  "prettier.braceStyle": "psr-2",
+  "prettier.requirePragma": false,
+  "prettier.insertPragma": false,
+
+  "eslint.enable": true,
+  "eslint.packageManager": "yarn",
+  "eslint.run": "onType",
+  "eslint.probe": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "html",
+    "vue",
+    "markdown"
+  ],
+
+  "yaml.format.singleQuote": true,
+  "markdown-preview-enhanced.enableScriptExecution": true,
+
+  "explorer.keyMappings.global": {
+    "o": ["wait", "expanded?", "collapse", "expand"],
+    "<cr>": ["wait", "expandable?", "cd", "open"],
+    "yp": "copyFilepath",
+    "yn": "copyFilename",
+    "yy": "copyFile",
+    "xx": "cutFile",
+    "dd": "delete",
+    "p": "pasteFile",
+    "<c-space>": "preview:content",
+    "e": "open",
+    "a": "addFile",
+    "A": "addDirectory",
+    "<tab>": "preview:labeling",
+    "r": "rename",
+    "q": "quit",
+    "<esc>": "esc",
+    "f": "searchRecursive",
+    "F": "searchRecursive"
+  },
+  "explorer.mouseMode": "doubleclick",
+  "explorer.position": "right",
+  "explorer.previewAction.onHover": true,
+  "explorer.icon.enableNerdfont": true,
+  "explorer.root.customRules": {
+    "vcs": {
+      "patterns": ["README.md", ".git", ".hg", ".projections.json"]
+    },
+    "vcs-r": {
+      "patterns": [".git", ".hg", ".projections.json"],
+      "bottomUp": true
+    }
+  },
+  "floaterm.completion.enable": true,
+  "floaterm.completion.shortcut": "floaterm",
+  "floaterm.completion.priority": 5,
+  "codeLens.enable": true,
+
+  "java.referencesCodeLens.enabled": true,
+
+  "python.linting.enabled": true,
+  "python.linting.pylintEnabled": true,
+  "python.linting.flake8Enabled": false,
+  "python.formatting.provider": "black",
+
+  "python.venvFolders": [
+    "envs",
+    ".pyenv",
+    ".direnv",
+    "~/.local/share/virtualenvs",
+    "~/.cache/pypoetry/virtualenvs"
+  ],
+  "python.workspaceSymbols.exclusionPatterns": [],
+  "python.linting.pylintEnabled": false,
+  "python.linting.pylintArgs": ["--load-plugins", "pylint_django"],
+
+  "python.linting.mypyEnabled": false,
+
+  "diagnostic-languageserver.formatFiletypes": {
+    "python": ["black", "isort", "docformatter"]
+  },
+
+  "jedi.enable": true,
+  "jedi.startupMessage": false,
+  "jedi.markupKindPreferred": "plaintext",
+  "jedi.trace.server": "off",
+  "jedi.jediSettings.autoImportModules": [],
+  "jedi.jediSettings.caseInsensitiveCompletion": true,
+  "jedi.jediSettings.debug": false,
+  "jedi.executable.args": [],
+  "jedi.codeAction.nameExtractFunction": "jls_extract_def",
+  "jedi.codeAction.nameExtractVariable": "jls_extract_var",
+  "jedi.completion.disableSnippets": false,
+  "jedi.completion.resolveEagerly": false,
+  "jedi.completion.ignorePatterns": [],
+  "jedi.diagnostics.enable": true,
+  "jedi.diagnostics.didOpen": true,
+  "jedi.diagnostics.didChange": true,
+  "jedi.diagnostics.didSave": true,
+  "jedi.hover.enable": true,
+  "jedi.hover.disable.keyword.all": false,
+  "jedi.hover.disable.keyword.names": [],
+  "jedi.hover.disable.keyword.fullNames": [],
+  "jedi.workspace.extraPaths": [],
+  "jedi.workspace.symbols.maxSymbols": 20,
+  "jedi.workspace.symbols.ignoreFolders": [
+    ".nox",
+    ".tox",
+    ".venv",
+    "__pycache__",
+    "venv"
+  ]
+}

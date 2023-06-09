@@ -1,0 +1,86 @@
+snippet session:message "Imprime un mensaje de session" b
+@if (session('${1:key-message}'))
+	<div class="text-green-500 px-4 relative " role="alert">
+		{{ session('${1:key-message}') }}
+	</div>
+@endif
+endsnippet
+
+snippet form-file "Formulario para enviar archivos, imagenes, musica, etc."
+<form action="{{ route('home.store') }}" method="POST" enctype="multipart/form-data" accept-charset="utf-8" >
+	@csrf
+	<label class="inline-flex items-center w-4/5 px-4 py-2 font-bold text-blue-200 bg-blue-500 rounded hover:bg-blue-400">
+		<x-particles.download-icon />
+		<input class="hidden" type="file" name="${1:key-input}" onchange="form.submit()" />
+		<span>Add new</span>
+	</label>
+	@error("${1:key-input}")
+		<strong> {{ $message }} </strong>
+	@enderror
+</form>
+endsnippet
+
+snippet alert-component "Alerta de contenido"
+<div class="bg-{{ $type ??  "red" }}-100 border border-{{ $type ??  "red" }}-400 text-{{ $type ??  "red" }}-700 px-4 py-3 rounded relative" role="alert">
+  <strong class="font-bold"> {{ $title ?? '' }} </strong>
+  <span class="block sm:inline"> {{  $content }} </span>
+  <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+    <svg class="fill-current h-6 w-6 text-{{ $type ??  "red" }}-500" role="button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><title>Close</title><path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"/></svg>
+  </span>
+</div>
+
+// <x-atoms.alerts.error type="green" content="Message show"  />
+endsnippet
+
+snippet input-component-dark "Para usarlo en los templates:  <x-atoms.input id='email' name='email' type='email' label='Email' autocomplete='email' />" b
+<div class="relative mb-4">
+    <label for={{ $name }} class="leading-7 text-sm text-gray-400">
+        @lang( $label )
+    </label>
+    <input type={{ $type ?? 'text' }} id={{ $id }} name={{ $name }} required {{ $attributes }}
+        autocomplete={{ $autocomplete ?? 'off' }} value="{{ old($name) }}"
+        class="w-full bg-gray-800 rounded border border-gray-700 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-900 text-base outline-none text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out" />
+
+    @error($name)
+        <div class="text-red-500 px-4 relative " role="alert"> {{ $message }} </div>
+    @enderror
+</div>
+
+//  <x-atoms.input id='email' name='email' type='email' label='Email' autocomplete='on' />
+endsnippet
+
+snippet old "Recupera la entrada anterior de un input cuando el request falla "
+value="{{ old('username') }}"
+endsnippet
+
+snippet reloadPage "Script para recargar la pagina cada cierto tiempo"
+$ ls *.blade.php | entr reload-browser Firefox
+endsnippet
+
+snippet slot "Slot personalizado, OJO: Si solo vas a usar un String puedes pasarlo como un atributo"
+<x-slot name="${1:nameSlot}">
+	${2:Content}
+</x-slot>
+endsnippet
+
+snippet error "Mostrar un error de validación sobre un atributo (name del input), dentro la directiva @error, puede hacer eco de la variable $message para mostrar el mensaje de error"
+@error("${1:name-input}")
+  <div class="alert alert-danger">{{ \$message }}</div>
+@enderror
+endsnippet
+
+snippet errors "Muestra todos los errores de validación, para ello se usa la variable $errors"
+@if(\$errors->any())
+  <div class="alert alert-danger">
+    <ul>
+      @foreach(\$errors->all() as \$error)
+        <li>{{ \$error }}</li>
+      @endforeach
+    </ul>
+  </div>
+@endif
+endsnippet
+
+snippet mergeAttributes "Merge permite combinar los atributos pasados desde la vista, con atributos por defecto (Default value) del componente."
+{{ \$attributes->merge(['class' => 'Default value']) }}
+endsnippet

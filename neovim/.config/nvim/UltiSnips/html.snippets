@@ -1,0 +1,26 @@
+snippet reloadPage "Script para recargar la pagina cada cierto tiempo"
+$ ls *.css *.html | entr reload-browser Firefox
+endsnippet
+
+snippet html:5 "Template HTML"
+<!DOCTYPE html>
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+
+    <title>${1: Title}</title>
+		<meta name="viewport" content="width=device-width, user-scalable=no" />
+		<meta name="description" content="Page" />
+		<meta name="author" content="Ramos Aparicio" />
+
+		<link rel="stylesheet" href="css/main.css?v=1.0" />
+	</head>
+
+	<body>
+    ${2: Content}
+		<script src="js/main.js"></script>
+	</body>
+</html>
+endsnippet
+

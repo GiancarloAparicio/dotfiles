@@ -1,0 +1,132 @@
+snippet regExp "Valida si un string cumple con un regExp"
+let message = "hello world!";
+let regExp = /${1:^[a-z]}/;
+
+if (regExp.test(message)) {
+	console.log('Message correct');
+	match[1];
+}
+endsnippet
+
+snippet reloadPage "Script para recargar la pagina cada cierto tiempo"
+<script type="text/javascript">
+	let seg=1.5
+	setTimeout(function () {
+		location.reload();
+	}, seg * 1000);
+</script>
+endsnippet
+
+snippet title1 "Titelize in the Transformation"
+${1:text}
+${1/\w+\s*/\u$0/g}
+endsnippet
+
+snippet title2 "Titelize in the Transformation"
+$1
+${1/\w+/\u$0/g}
+endsnippet
+
+snippet title3 "Titelize in the Transformation"
+${1:text}
+${1:`!p snip.rv = t[1].title()`}
+`!p snip.rv = t[1].title()`
+endsnippet
+
+snippet fetch "Fetch para peticiones a una API"
+fetch(\`\${URL}\`, {
+	method: 'POST', //GET, POST, PUT, DELETE,etc
+	mode: 'cors',
+
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: \`Bearer \${TOKEN}\`,
+		},
+
+		body: JSON.stringify(data),
+	})
+		.then((response) => response.json())
+		.then((data) => {
+			//
+		})
+		.catch((error) => {
+			//
+		});"
+endsnippet
+
+snippet arrowFunction "Funcion flecha"
+const ${1:name} = () => {
+
+	return(
+		{2:null};
+	);
+}
+endsnippet
+
+snippet function "Funcion flecha"
+const ${1:name} = () => {
+
+	return(
+		{2:null};
+	);
+}
+endsnippet
+
+snippet moduloVue "Store para los modulos Vuex"
+const state = {
+	${1:data}: null,
+};
+
+const mutations = {
+
+	handleAdd${2/\w+/\u/g:State} : (state, payload) => {
+    state.${1:data} = {
+        ...state.${1:data},
+        ...payload
+    };
+  },
+
+  handleUpdate${2/\w+/\u/g:State}: (state, payload) => {
+      state.${1:data} = {
+          ...state.${1:data},
+          ...payload
+      };
+  },
+
+  handleDelete${2/\w+/\u/g:State}: (state, payload) => {
+      state.${1:data} = {
+          ...state.${1:data},
+          ...payload
+      };
+  },
+
+};
+
+const actions = {
+   add${2/\w+/\u/g:State}: (store, payload) => {
+       store.commit('handleAdd${2/\w+/\u/g:State}', payload);
+   },
+   edit${2/\w+/\u/g:State}: (store, payload) => {
+       store.commit('handleUpdate${2/\w+/\u/g:State}', payload);
+   },
+   delete${2/\w+/\u/g:State}: (store, payload) => {
+       store.commit('handleDelete${2/\w+/\u/g:State}', payload);
+   },
+}
+
+const getters = {
+   get${2/\w+/\u/g:State}: (state) => {
+      return state.${1:data};
+   },
+}
+
+const `!p snip.rv = snip.basename or "untitled"` = {
+   namespaced: true,
+   state,
+   mutations,
+   actions,
+   getters,
+};
+
+export default `!p snip.rv = snip.basename or "untitled"`
+endsnippet

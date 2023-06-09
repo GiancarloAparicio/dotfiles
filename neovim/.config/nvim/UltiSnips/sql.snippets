@@ -1,0 +1,61 @@
+snippet createDataBase "Crea un base de datos para SQL Server"
+IF NOT EXISTS(SELECT * FROM sys.databases WHERE name = "${1:DataBase}")
+BEGIN
+  CREATE DATABASE ${1:DataBase}
+END
+endsnippet
+
+snippet createTableUser "Crea un tabla usuarios para SQL Server"
+IF NOT EXISTS (SELECT * FROM sysobjects WHERE name="users" AND xtype="U")
+BEGIN
+   CREATE TABLE users (
+     email VARCHAR(100) NOT NULL CHECK (email LIKE "_%@__%.__%") PRIMARY KEY ,
+     password VARCHAR(32) NOT NULL,
+     name VARCHAR(40) NOT NULL,
+     last_name VARCHAR(40),
+     create_at DATE DEFAULT GETDATE(),
+     update_at DATE NULL,
+     delete_at DATE NULL
+   );
+END
+endsnippet
+
+snippet foreingKey "Llave foranea para SQL Server"
+${1:nameCamp} INT NOT NULL FOREIGN KEY REFERENCES ${2:table}(${3:table_id})
+endsnippet
+
+snippet primaryKey "Llave primaria para SQL Server"
+PRIMARY KEY (${1:nameCamp1} , ${2:nameCamp2})
+endsnippet
+
+snippet createTable "Crea una tabla para SQL Server"
+IF NOT EXISTS (SELECT * FROM sysobjects WHERE name="${1:table}" AND xtype="U")
+BEGIN
+  CREATE TABLE ${1:table} (
+    id INT NOT NULL PRIMARY KEY,
+    description VARCHAR(100) NOT NULL,
+    create_at DATE DEFAULT GETDATE(),
+    update_at DATE NULL,
+    delete_at DATE NULL
+  );
+END
+endsnippet
+
+snippet createStoreProcedure "Crea una tabla para SQL Server"
+CREATE PROC ${1:nameProcedimiento}(@name VARCHAR(30), @edad INT)
+AS BEGIN
+    SELECT * FROM users WHERE name = @name AND edad > @edad
+END
+endsnippet
+
+snippet insert "Inserta campos en una tabla para SQL Server"
+INSERT INTO ${1:table} (email,password)
+    VALUES ("email1@example","secret1"),
+           ("email2@example","secret2");
+endsnippet
+
+snippet update "Actualiza campos en una tabla para SQL Server"
+UPDATE ${1:table}
+   SET name = "example", year= 20
+   WHERE id = 1;
+endsnippet

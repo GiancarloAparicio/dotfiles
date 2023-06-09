@@ -1,0 +1,137 @@
+snippet modelMongoose "Modelo para mongoose"
+import { Schema, model } from 'mongoose';
+const `!p snip.rv = snip.basename or "untitled"`Schema = new Schema(
+   {
+       id: {
+           type: String,
+           unique: true,
+       },
+       name: {
+           type: String,
+           unique: true,
+       },
+   },
+   {
+       timestamps: true,
+       versionKey: false,
+   }
+);
+export default model('`!p snip.rv = snip.basename or "untitled"`', `!p snip.rv = snip.basename or "untitled"`Schema);
+endsnippet
+
+snippet routerResourceExpress "Ruta resource para Express"
+import { Router } from 'express';
+import ${1:Controller} from '../app/controller/${1:Controller}';
+const `!p snip.rv = snip.basename or "untitled"` = Router();
+
+`!p snip.rv = snip.basename or "untitled"`get('/', ${1:Controller}.index);
+`!p snip.rv = snip.basename or "untitled"`get('/create', ${1:Controller}.create);
+`!p snip.rv = snip.basename or "untitled"`post('/', ${1:Controller}.store);
+`!p snip.rv = snip.basename or "untitled"`get('/:id', ${1:Controller}.show);
+`!p snip.rv = snip.basename or "untitled"`get('/:id/edit', ${1:Controller}.edit);
+`!p snip.rv = snip.basename or "untitled"`put('/:id', ${1:Controller}.update);
+`!p snip.rv = snip.basename or "untitled"`delete('/:id', ${1:Controller}.destroy);
+
+export default `!p snip.rv = snip.basename or "untitled"`;
+endsnippet
+
+snippet routerApiExpress "Rutas api para Express"
+import { Router } from 'express';
+import ${1:Controller} from '../app/controller/${1:Controller}';
+
+const `!p snip.rv = snip.basename or "untitled"` = Router();
+
+ `!p snip.rv = snip.basename or "untitled"`get('/', ${1:Controller}.index);
+ `!p snip.rv = snip.basename or "untitled"`post('/', ${1:Controller}.store);
+ `!p snip.rv = snip.basename or "untitled"`get('/:id', ${1:Controller}.show);
+ `!p snip.rv = snip.basename or "untitled"`put('/:id', ${1:Controller}.update);
+ `!p snip.rv = snip.basename or "untitled"`delete('/:id', ${1:Controller}.destroy);
+
+export default `!p snip.rv = snip.basename or "untitled"`;
+endsnippet
+
+snippet controllerApiExpress "Clase Controller para un api en Express"
+import { Request, Response } from 'express';
+import fs from 'fs-extra';
+import path from 'path';
+import { getRepository } from 'typeorm';
+
+export default class `!p snip.rv = snip.basename or "untitled"` {
+
+   static async index(req: Request, res: Response) {
+
+       return res.json('');
+   }
+
+   static async store(req: Request, res: Response) {
+
+       return res.json(req.body);
+   }
+
+   static async show(req: Request, res: Response) {
+
+       return res.json(req.params.id);
+   }
+
+   static async update(req: Request, res: Response) {
+
+       return res.json(req.params.id);
+   }
+
+   static async destroy(req: Request, res: Response) {
+
+       await fs.unlink(path.resolve('imagePath'));
+       return res.json(req.params.id);
+   }
+}
+
+endsnippet
+
+snippet controllerResourceExpress "Clase Controller Resource para  Express"
+import { Request, Response } from 'express';
+import fs from 'fs-extra';
+import path from 'path';
+import { getRepository } from 'typeorm';
+
+export default class `!p snip.rv = snip.basename or "untitled"` {
+
+   static async index(req: Request, res: Response) {
+
+       return res.json('');
+   }
+
+   static async create(req: Request, res: Response) {
+
+       let data;
+       return res.render('view',data);
+   }
+
+   static async store(req: Request, res: Response) {
+
+       return res.json(req.body);
+   }
+
+   static async show(req: Request, res: Response) {
+
+       return res.json(req.params.id);
+   }
+
+   static async edit(req: Request, res: Response) {
+
+       let data;
+       return res.render('view',data);
+   }
+
+   static async update(req: Request, res: Response) {
+
+       return res.json(req.params.id);
+   }
+
+   static async destroy(req: Request, res: Response) {
+
+       await fs.unlink(path.resolve('imagePath'));
+       return res.json(req.params.id);
+   }
+}
+
+endsnippet

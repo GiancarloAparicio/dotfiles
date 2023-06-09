@@ -1,0 +1,446 @@
+snippet rofi "Lista con rofi" b
+fd -t d | rofi -drun-use-desktop-cache -show -dmenu -i -p "File" -markup-rows 5 -theme Arc-Dark
+endsnippet
+
+
+
+snippet getDate "Obtiene la información de la fecha" b
+DAY="$(date '+%a') "
+DAY_FULL="$(date '+%A') "
+DATE="$(date +%d) "
+MONTH="$(date +%m) "
+MONTH_SHORT="$(date '+%b') "
+MONTH_FULL="$(date '+%B') "
+YEAR="$(date +%y) "
+TODAY="$(date +%d/%m/%Y) "
+TIME="$(date +%T) "
+TIME_12="$(date +%l:%M:%S) "
+TIMESTAMP="$(date) "
+
+endsnippet
+
+
+
+snippet awkGetLastColumn "Obtiene la ultima columna" b
+awk '{print $(NF)}'
+endsnippet
+
+snippet awkDeleteFisrt "Elimina la primera columna con awk" b
+awk '{ \$1=""; print \$0; }'
+endsnippet
+
+snippet urlDecode "Funcion para decodificar una url" b
+decode=$(echo "$url_encode" | sed -e "s/%\([0-9A-F][0-9A-F]\)/\\\\\x\1/g" | xargs -0 echo -e)
+endsnippet
+
+snippet forCat "Ciclo for para recorrer cada linea para cat o un string con salto de linea" b
+lines=$(cat 'file.txt')
+
+while IFS= read -r line; do
+	echo "N: $line"
+done <<<"$lines"
+endsnippet
+
+snippet sd "Funcion sd para reemplazar palabras en uno o varios archivos"
+sd(){
+    oldWord=$1
+    newWord=$2
+    files=$3
+
+    find $(pwd) -name "${files}" -exec sed -i "s/$oldWord/$newWord/g" {} \;
+}
+endsnippet
+
+snippet ctrl_c "Función ctrl + c, que detiene todo el flujo de ejecución"
+function ctrl_c(){
+	echo -e "\n Exit...!\n"
+	exit 1
+}
+
+trap ctrl_c INT
+endsnippet
+
+snippet extractFilenameAndExtension "Extrae el filename, extension, extensiones de un archivo"
+FILE="example.tar.gz"
+
+echo "${FILE%%.*}"
+#example
+
+echo "${FILE%.*}"
+#example.tar
+
+echo "${FILE#*.}"
+#tar.gz
+
+echo "${FILE##*.}"
+#gz
+endsnippet
+
+snippet getFilenameAndExtension "Obtien la extension y el nombre del archivo de una ruta"
+filename=$(basename -- "$fullfile")
+extension="${filename##*.}"
+filename="${filename%.*}"
+endsnippet
+
+snippet ifTermux "Verfifica si el sistema es termux u otro sistemas"
+OS=$(uname -o)
+
+if [[ "\${OS}" == "Android" ]]; then
+	# Is termux
+else
+	# Is not termux
+fi
+endsnippet
+
+snippet apt "Instala un lista de paquetes apt sin error si un paquete falla o no existe"
+echo ${1:package1 package2 package3} | xargs -n 1 sudo apt-get install -y
+endsnippet
+
+snippet forArray "for para un array"
+strings=(
+    string1
+    "string with spaces"
+    stringN
+)
+for i in "\${strings[@]}"; do
+    echo "\$i"
+done
+endsnippet
+
+snippet ifCommandFail "Verifica si un comando falla y realiza una u otra acción"
+${1:run command} >/dev/null 2>&1 &&
+	echo "Exist" ||
+	echo "Not exist"
+endsnippet
+
+snippet sed "Busca y reemplaza varias lineas para un tipo de archivo especifico (zsh)"
+list=(
+	"s/sudo / /g"
+	"s/ \/etc/ \$PREFIX\/etc/g"
+	"s/${1:search -V -Z -v }/${2:search }/g"
+)
+
+for row in "${list[@]}"; do
+	find $HOME/to/repo -name *.zsh -exec sed -i "$row" {} \;
+done
+
+endsnippet
+
+snippet conditionUser "Verifica si el usuario quiere continuar o terminar con el script"
+while true; do
+	read "yn? ${1:Do you want to continue} (y/n)?  " yn
+	case $yn in
+	[Yy]*)
+		echo "yes"
+		break
+		;;
+	[Nn]*)
+		echo "not"
+		exit # Use 'return' in a function
+		;;
+	*) echo "Please answer yes o no." ;;
+	esac
+done
+endsnippet
+
+snippet read "Escribe un mensaje y luego lee un valor de la consola"
+read "${1:answer}? Continued ?  "
+echo \$answer
+endsnippet
+
+snippet runSilent "Ejecuta un comando en silencio al terminar y en segundo plano"
+(&>/dev/null ${1:run command} &)
+endsnippet
+
+snippet titleCase "Transforma la primera letra de todas las palabras en mayusculas"
+echo "${1:content text}" | sed 's/.*/\L&/; s/[a-z]*/\u&/g'
+endsnippet
+
+snippet ifVariableReturn "Si la variable no es definida o esta vacia '', termina la funcion con un return"
+[ -z "\${${1:var}}" ] && return
+endsnippet
+
+snippet options "Permite usar banderas (-u,-a) desde un script, si se usa ':' se espera que se ingrese un valor, ejm: (u:a) 'script -u juan -a' "
+while getopts "u:a" flag
+do
+	case "\${flag}" in
+		u)
+			username=\${OPTARG}
+			;;
+		a)
+			age=20
+			;;
+	esac
+done
+
+echo "Username: \$username";
+echo "Age: \$age";
+endsnippet
+
+snippet echo "Template de echo bash con colores"
+echo -e "\${${1:GREEN}} ${2:Content} \${ENDCOLOR}"
+endsnippet
+
+snippet date "Muestra la fecha y hora actual"
+date +%Y.%m.%d-%H:%M:%S
+endsnippet
+
+snippet upperCase "Transforma un string a mayusculas"
+${1:string}=\$1
+${1:string}=\$(echo "\$${1:string}" | tr  '[:lower:]' '[:upper:]')
+endsnippet
+
+snippet lowerCase "Transforma un string a minuscula"
+${1:string}=\$1
+${1:string}=\$(echo "\$${1:string}" | tr  '[:upper:]' '[:lower:]' )
+endsnippet
+
+
+snippet autoCompleteCommand "Asigna autocompletado 'ESTATICO' a un script (command), para ejecutarlo usar: source ./fileName.sh"
+
+_`!p snip.rv = snip.basename or "untitled"`(){
+
+	list_arg=${1:"list args"}
+	COMPREPLY=(\$(compgen -W "\$list_arg" -- "\${COMP_WORDS[1]}"))
+}
+
+complete -F _`!p snip.rv = snip.basename or "untitled"` ${2:command}
+
+endsnippet
+
+snippet switchCase "Implementacion de Switch-case para bash"
+${1:var}="value"
+
+case \$${1:var} in
+
+	${2:value-1})
+		echo -n "${2:value-1}"
+		;;
+
+	value2 | "value3")
+		echo -n "$value2 or value3"
+		;;
+
+	*)
+		echo -n "unknown"
+		;;
+esac
+endsnippet
+
+snippet changeAndReplaceWordToString "Busca y reemplaza una palabra en un string"
+${1:current_string}="Lorem... text"
+oldword="${2:old}"
+newWord="${3:new}"
+
+${1:current_string}="\${${1:current_string}//\$oldword/\$newword}"
+endsnippet
+
+snippet searchAndReplaceWordToFile "Busca y reemplaza una palabra en un solo archivo"
+${1:file}="./file.txt"
+oldWord="${2:old}"
+newWord="${3:new}"
+
+sed -i "s/\$oldWord/\$newWord/g" \$${1:file}
+endsnippet
+
+snippet findAndReplaceWordToFiles "Busca y reemplaza una palabra en varios archivos"
+path=${1:"/home/here/"}
+files=${2:"*.txt"}
+
+oldWord="${3:oldWord}"
+newWord="${4:newWord}"
+
+find \$path -name \$files -exec sed -i "s/\$oldWord/\$newWord/g" {} \;
+endsnippet
+
+snippet ifVariable "Determina si una variable no esta definida o esta vacia '' (cadena vacia), para saber si una variable"
+${1:var}=\$1
+
+if [ -z "\${${1:var}}" ]; then
+	${2:echo "Var unset or empty"}
+fi
+endsnippet
+
+snippet ifVariableNull "Determina si una variable es una cadena vacia (La variable existe pero su valor es '')"
+${1:var}=\$1
+
+if [[ -z "\${${1:var}-unset}" ]]; then
+	${2:echo "Var is set to empty string"}
+fi
+endsnippet
+
+snippet ifVariableUnset "Determina solo si una variable no esta definida (No existe)"
+${1:var}=\$1
+
+if [[ -z "\${${1:var}+set}" ]]; then
+	${2:echo "Var is unset"}
+fi
+endsnippet
+
+snippet getNamesToFiles "Obtiene solo el nombre (sin extension) de una lista de archivos, sin son archivos variados usar '*'"
+"\$( ls ${1:~/path/} | grep .${2:extension} | cut -d '.' -f 1 )"
+endsnippet
+
+snippet getDataToFile "Obtiene solo el nombre completo, la extension, el nombre base y la ruta al archivo"
+fullFile="${2:../path/doc/file.txt}"
+
+fileName="\${fullFile##*/}"
+extension="\${fileName##*.}"
+baseFileName="\${fileName%.*}"
+pathToFile=\$(dirname \$fileName)
+endsnippet
+
+snippet changeFirstLine "Cambia la primera linea de un archivo, (1 representa la primera linea)"
+file=${1:~/file.txt}
+newLine="${2:Content new line}"
+
+sed -i "1s/.*/$newLine/" \$file
+endsnippet
+
+snippet separator "Comentario para separar bloques de codigo"
+#-------------------------------------------------------------------
+# ${1:Block}
+endsnippet
+
+snippet defaultVariable "Comprobar si una variable existe, de lo contrario establece un valor por defecto"
+${1:value}=\$1
+
+${1:value}=\${${1:value}:-${2:Default}}
+endsnippet
+
+snippet termux "Shebang para script bash en termux"
+#!/data/data/com.termux/files/usr/bin/bash
+endsnippet
+
+snippet bash "Shebang para script bash en distros"
+#!/bin/bash
+endsnippet
+
+snippet ifcommand "Si un comando existe realize una accion."
+if ! [ -x "\$(command -v ${1:command})" ]; then
+	echo "Not exist"
+else
+	echo "Exist"
+fi
+endsnippet
+
+snippet ifSimpleCommand "Verfica si un comando no existe y realiza una sola accion"
+which ${1:command} >/dev/null 2>&1 &&
+	echo "Exist" ||
+	echo "Not exist"
+endsnippet
+
+snippet iffile "Si un archivo existe realize una accion, permisos: read (-r), write (-w), execute (-x) "
+file=${1:/file}
+
+if [[ -f "\$file" ]]; then
+	echo "Exist"
+else
+	echo "Not exist"
+fi
+endsnippet
+
+snippet ifdirectory "Si un directorio existe realize una accion, permisos: read (-r), write (-w), execute (-x) "
+diretory=${1:/dir}
+
+if [[ -d "\$diretory" ]]; then
+	echo "Exist"
+else
+	echo "Not found"
+fi
+endsnippet
+
+snippet test "Plantilla para correr test, en un hook de git"
+command="${1:run test}"
+
+echo "Executing tests before commit"
+
+$command
+
+result=\$?
+
+if [[ "\$result" -ne 0 ]]; then
+	echo "\${RED}Failed execution of tests\${ENDCOLOR}"
+	exit 1
+fi
+
+exit 0
+endsnippet
+
+snippet regExp "Template para expresiones regulares, verifica que el message cumple con la regexp de lo contrario lanza un alerta"
+${1:message}="Message validate"
+reg_exp="${1:^[0-9]}"
+
+if [[ ! \$${1:message} =~ $reg_exp  ]]; then
+	echo -e "Invalid message"
+	exit 1
+fi
+
+echo -e "Correct message"
+echo \${match[1]}
+endsnippet
+
+snippet jqWrite "Permite agregar un nuevo campo a un JSON, si el campo existe lo actualiza"
+local file_json="./file.json"
+
+echo $file_json | jq '.${1:file.files2} += {"${2:newFile}":"${3:value}"}'
+endsnippet
+
+snippet jqRead "Modulo para obtener el valor de una propiedad de un archivo json"
+config`!p snip.rv = t[1].title()`="./${1:file}.config.json"
+
+value${2/.*/\u$0/}=$(jq -r .${2:property} $config`!p snip.rv = t[1].title()`)
+endsnippet
+
+snippet jqCreateJson "Permite crear un JSON a partir de un texto o archivo"
+${1:echo 'test1 test2'} |  jq -R -n -c '[inputs|split(" ")|{(.[0]):.[1]}] | add'
+endsnippet
+
+snippet tryCommand "(Try catch) Si un comando tiene existo pinta 'Works' y si falla pinta 'Not works', ademas 1> : Redirige el stdout a null, 2> : Redirige el stderr a null"
+${1:run command} 2>/dev/null && (
+		echo -e "Works"
+)||(
+		echo -e "Not works"
+)
+endsnippet
+
+#Color Text
+snippet redText "Variable para color rojo, echo '${RED} Content ${ENDCOLOR}'"
+RED="\033[0;31m"          # Red
+ENDCOLOR="\033[0m"        # Final de un color
+endsnippet
+
+snippet blackText "Variable para el color black, echo '${BLACK} Content ${ENDCOLOR}'"
+BLACK="\033[0;30m"        # Black
+ENDCOLOR="\033[0m"        # Final de un color
+endsnippet
+
+snippet greenText "Variable para el color green, echo '${GREEN} Content ${ENDCOLOR}'"
+GREEN="\033[0;32m"        # Green
+ENDCOLOR="\033[0m"        # Final de un color
+endsnippet
+
+snippet yellowText "Variable para el color yellow, echo '${YELLOW} Content ${ENDCOLOR}'"
+YELLOW="\033[0;33m"       # Yellow
+ENDCOLOR="\033[0m"        # Final de un color
+endsnippet
+
+snippet blueText "Variable para el color blue, echo '${BLUE} Content ${ENDCOLOR}'"
+Blue="\033[0;34m"         # Blue
+ENDCOLOR="\033[0m"        # Final de un color
+endsnippet
+
+snippet purpleText "Variable para el color purple, echo '${PURPLE} Content ${ENDCOLOR}'"
+PURPLE="\033[0;35m"       # Purple
+ENDCOLOR="\033[0m"        # Final de un color
+endsnippet
+
+snippet cyanText "Variable para el color cyan, echo '${CYAN} Content ${ENDCOLOR}'"
+CYAN="\033[0;36m"         # Cyan
+ENDCOLOR="\033[0m"        # Final de un color
+endsnippet
+
+snippet whiteText "Variable para el color white, echo '${WHITE} Content ${ENDCOLOR}'"
+WHITE="\033[0;37m"        # White
+ENDCOLOR="\033[0m"        # Final de un color
+endsnippet

@@ -1,0 +1,14 @@
+snippet grid "Grid layout en CSS"
+display: grid;
+grid-template: ${1:row1 row2 ... rowN}/${2:col1 col2 ... colM}; /* px,%,rem  <>  Npx Npx Npx */
+
+grid-template-areas:'nameArea1 nameArea2'
+                    'nameArea3 nameAreaN';
+/* Grid item -> grid-area: nameAreaN; */
+endsnippet
+
+snippet grid-template "Define columnas cuadrícula, filas y áreas del Grid, grid de 3x3 (El alto de las fila y el ancho de las columnas son OPCIONALES) "
+grid-template: "area1 area2 area2" ${1:rowHeight1}
+						   "area1 area3 area3" ${1:rowHeight2}
+               "area1 area3 area3" ${1:rowHeight3}/ ${2:colWidth1} ${2:colWidth2} ${2:colWidth3}; 
+endsnippet

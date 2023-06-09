@@ -1,0 +1,175 @@
+snippet copyFile "Ansible: Copia un archivo local a los remotos" b
+- name: Copy file local to remote server
+  copy:
+    src: ~/sample.txt
+    dest: /tmp
+    backup: yes
+endsnippet
+
+snippet development "Ansible: Instala herramienta de desarrollo y de compilación" b
+- name: install the 'Development tools' package group
+  package: name="@Development tools" state=present
+  when:  ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux' or ansible_distribution == 'Fedora'
+  become: yes
+
+- name: Install the 'build-essential' meta package
+  package: name="build-essential" state=present
+  when: ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu'
+  become: yes
+
+- name: Install net-tools
+  package: name=net-tools state=installed
+  become: yes
+  become_method: sudo
+endsnippet
+
+snippet copyMultiFIlesDirs "Ansible: Permite copiar multiples archivos/directorios a los remotos" b
+- name: Ansible copy multiple files with_items
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: "{{item.mode}}"
+    backup: yes
+  with_items:
+    # If directory ends with '/' copy content, elseif ens without '/' copy directory
+    - { src: '/home/md/dir1',dest: '/tmp/devops_system1', mode: '0777'}
+    - { src: '/home/md/test2.py',dest: '/tmp/devops_system2', mode: '0707'}
+    - { src: '/home/md/dir3/',dest: '/tmp/devops_system3', mode: '0575'}
+endsnippet
+
+snippet copyContentDir "Ansible: Copia el contenido de una carpeta a los remotos. Pero no la carpeta en si" b
+- name: Copy file local to remote server
+  copy:
+    # If ends with '/' copy content, elseif ens without '/' copy directory
+    src: /home/brain/
+    dest: /tmp
+    backup: yes
+endsnippet
+
+snippet copyContentDir "Ansible: Copia el contenido de una carpeta a los remotos. Pero no la carpeta en si" b
+- name: Copy file local to remote server
+  copy:
+    src: /home/brain    # If ends with '/' copy content, elseif ends without '/' copy directory
+    dest: /tmp
+    backup: yes
+endsnippet
+
+snippet ansible "Template para ansible" b
+#!/usr/bin/env ansible-playbook
+---
+- hosts: all
+  become: true
+  vars_files:
+    - vars/default.yml
+
+  tasks:
+    - name: Install prerequisites
+      apt: name={{ item }} update_cache=yes state=latest force_apt_get=yes
+      loop: [ 'aptitude' ]
+
+    - name: Install dependencies
+      apt: name={{ item }} update_cache=yes state=latest
+      loop: [ ${1:'apache2', 'mysql-server', 'php', 'php-mysql'} ]
+endsnippet
+
+snippet createFile "Ansible: Crea un solo archivo nuevo" b
+- name: Creating an empty file
+  file:
+    path: "/your path"
+    state: touch
+		mode: u=rwx,g=rx,o=rx
+    owner: test
+endsnippet
+
+snippet deleteFile "Ansible: Elimina un archivo" b
+- name: Removing a file
+  file:
+    path: "/path/file"
+    state: absent
+endsnippet
+
+snippet createMultiFiles "Ansible: Crea multiples archivos nuevos señalados" b
+- name: Create multiple files
+  file:
+    path: "/home/{{ item }}"
+    state: touch
+		mode: u=rwx,g=rx,o=rx
+    owner: test
+
+  with_items:
+  - test01.txt
+  - test02.txt
+  - test03.txt
+endsnippet
+
+snippet createDir "Ansible: Crear un nuevo directorio" b
+- name: ansible create directory example
+  file:
+    path: /tmp/devops
+    state: directory
+		mode: u=rwx,g=rx,o=rx
+    owner: test
+endsnippet
+
+snippet docker-compose "Template para docker-compose"
+version: "3.8"
+
+networks:
+    ${1:proxy}:
+
+services:
+  nginx:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    container_name: nginx
+    volumes:
+      - ./src:/var/www/html:delegated
+      - ./nginx/log:/var/log/nginx:delegated
+    ports:
+      - target: 80
+				published: \${NGINX_PORT}
+    restart: unless-stopped
+    working_dir: /var/www/html
+    depends_on:
+      - mysql
+    networks:
+      - ${1:proxy}
+
+  mysql:
+    image: mysql:5.7.29
+    container_name: mysql
+    ports:
+      - target: 80
+				published: \${NGINX_PORT}
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
+    environment:
+      MYSQL_DATABASE: homestead
+      MYSQL_USER: homestead
+      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: secret
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    networks:
+      - ${1:proxy}
+
+endsnippet
+
+snippet build "Construccion de un imagen apartir de un Dockerfile"
+build:
+	context: .
+	dockerfile: ${1:service}.dockerfile
+endsnippet
+
+snippet volumes "Asignacion de un volumen para un contenedor en docker-compose"
+volumes:
+	- "${1:volumeName}:/usr/html"            # Volumen nombrado
+	- "$PWD/project:/usr/html"               # Volumen host
+endsnippet
+
+snippet network "Red de un contenedor"
+networks:
+	- red
+endsnippet

@@ -1,0 +1,472 @@
+snippet templateDefault "Template basico para nginx (default.conf)" b
+user www-data;
+worker_processes auto;
+pid /run/nginx.pid;
+error_log  /var/log/nginx/error.log warn;
+pid        /var/run/nginx.pid;
+
+include /etc/nginx/modules-enabled/*.conf;
+
+events {
+	worker_connections 1024;
+	# multi_accept on;
+}
+
+http {
+
+	##
+	# Basic Settings
+	##
+
+	sendfile on;
+	tcp_nopush on;
+	tcp_nodelay on;
+	keepalive_timeout 65;
+	types_hash_max_size 2048;
+	# server_tokens off;
+
+	# server_names_hash_bucket_size 64;
+	# server_name_in_redirect off;
+
+	include /etc/nginx/mime.types;
+	default_type application/octet-stream;
+
+	##
+	# SSL Settings
+	##
+
+	ssl_protocols TLSv1 TLSv1.1 TLSv1.2 TLSv1.3; # Dropping SSLv3, ref: POODLE
+	ssl_prefer_server_ciphers on;
+
+	##
+	# Logging Settings
+	##
+	log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+										'$status $body_bytes_sent "$http_referer" '
+										'"$http_user_agent" "$http_x_forwarded_for"';
+
+	access_log  /var/log/nginx/access.log  main;
+	error_log /var/log/nginx/error.log;
+
+	##
+	# Gzip Settings
+	##
+
+	gzip on;
+
+	# gzip_vary on;
+	# gzip_proxied any;
+	# gzip_comp_level 6;
+	# gzip_buffers 16 8k;
+	# gzip_http_version 1.1;
+	# gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
+
+	##
+	# Virtual Host Configs
+	##
+
+	include /etc/nginx/conf.d/*.conf;
+	include /etc/nginx/sites-enabled/*;
+
+ }
+
+
+#mail {
+#	# See sample authentication script at:
+#	# http://wiki.nginx.org/ImapAuthenticateWithApachePhpScript
+#
+#	# auth_http localhost/auth.php;
+#	# pop3_capabilities "TOP" "USER";
+#	# imap_capabilities "IMAP4rev1" "UIDPLUS";
+#
+#	server {
+#		listen     localhost:110;
+#		protocol   pop3;
+#		proxy      on;
+#	}
+#
+#	server {
+#		listen     localhost:143;
+#		protocol   imap;
+#		proxy      on;
+#	}
+#
+endsnippet
+
+snippet serverProxySSL "Crea una proxy inverso SSL"
+    #############################################################
+    ##  Redirect - SSL
+    #############################################################
+    server {
+        listen       9100 ssl;
+        listen [::]:9100 ssl;
+        server_name  ${1:localhost} www.${1:localhost};
+        keepalive_timeout   70;
+
+        ssl_protocols TLSv1.2;
+        ssl_prefer_server_ciphers on;
+        # ssl_dhparam /etc/ssl/certs/dhparam.pem;
+        ssl_ciphers 	ECDHE-RSA-AES256-GCM-SHA512:DHE-RSA-AES256-GCM-SHA512:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-	AES256-SHA384;
+        ssl_ecdh_curve secp384r1; # Requires nginx >= 1.1.0
+        ssl_session_timeout  10m;
+        ssl_session_cache shared:SSL:10m;
+        ssl_session_tickets off; # Requires nginx >= 1.5.9
+        # ssl_stapling on; # Requires nginx >= 1.3.7 (Disable for self-signed certificates)
+        # ssl_stapling_verify on; # Requires nginx => 1.3.7 (Disable for self-signed certificates)
+        resolver 8.8.8.8 8.8.4.4 valid=300s;
+        resolver_timeout 5s;
+        add_header X-Frame-Options DENY;
+        add_header X-Content-Type-Options nosniff;
+        add_header X-XSS-Protection "1; mode=block";
+
+        ssl_certificate     www.example.com.crt;
+        ssl_certificate_key www.example.com.key;
+        ssl_protocols       TLSv1 TLSv1.1 TLSv1.2;
+
+        # Location configuracion proxy
+        location / {
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header Host $http_host;
+
+                proxy_http_version 1.1;
+                proxy_set_header Upgrade $http_upgrade;
+                proxy_set_header Connection 'upgrade';
+
+                proxy_pass ${2:https://127.0.0.1:9000};
+                proxy_cache_bypass $http_upgrade;
+        }
+    }
+endsnippet
+
+snippet serverRedirectAllSSL "Redirecciona todo los hosts a su version SSL (http:domain -> https:domain)"
+  #############################################################
+  ##  Redirect All to SSL
+  #############################################################
+  server {
+    listen 80 default_server;
+	  listen [::]:80 default_server;
+	  server_name _;
+	  return 301 https://$host$request_uri;
+  }
+endsnippet
+
+snippet serverRedirectSSL "Crea una redirección SSL al mismo host (http:domain -> https:domain)"
+    #############################################################
+    ##  Redirect - SSL
+    #############################################################
+    server {
+        listen 80;      # default_server (IPv4 - For all host)
+        listen [::]:80; # default_server (IPv6 - For all host)
+        server_name ${1:example.com} www.${1:example.com}; # server_name _; (For all host - default_server)
+
+        return 302 https://${1:example.com}$request_uri;
+    }
+
+endsnippet
+
+snippet serverRedirect "Redireciona todo el trafico de un servidor a otro host"
+    #############################################################
+    ##  Redirect
+    #############################################################
+    server {
+        listen 80;      #  IPv4
+        listen [::]:80; #  IPv6
+
+        server_name ${1:example.com} www.${1:example.com};
+
+        return 302 https://$host$request_uri;
+    }
+endsnippet
+
+snippet server "Configuracion por defecto para un block server"
+#############################################################
+## ${1:Domain} - Block Server
+#############################################################
+proxy_cache_path /tmp/nginx/cache levels=1:2 keys_zone=${1:domain}_cache:10m max_size=10g inactive=60m use_temp_path=off;
+
+server {
+	# There can only be one virtual host as the default server
+	listen 80;       # listen 80 default_server;
+	listen [::]:80;  # listen [::]:80 default_server;
+
+	# SSL configuration
+	#
+	# listen 443 ssl default_server;
+	# listen [::]:443 ssl default_server;
+	#
+	# Self signed certs generated by the ssl-cert package
+	# Don't use them in a production server!
+	#
+	# include snippets/snakeoil.conf;
+
+	root /var/www/${1:domain};
+
+	# Add index.php to the list if you are using PHP
+	index index.html index.htm index.nginx-debian.html;
+
+	server_name www.${1:domain}.com ${1:domain}.com;
+	access_log logs/${1:domain}.access;
+	error_log logs/${1:domain}.error error;
+
+	# El contenido estático como imágenes y CSS no se vuelve a solicitar por el usuario, sino que se utiliza de la caché local.
+	location ~* .(jpg|jpeg|gif|css|png|js|ico|html)$ {
+		expires max;
+		strip on; # Elimina todos los espacios y saltos de linea
+		etag on;  # Activa los identificadores de url, y ahorran ancho de banda
+	}
+
+	location / {
+		proxy_cache ${1:domain}_cache;
+		proxy_cache_revalidate on;
+		proxy_cache_min_uses 3;
+
+		# Retorna el contenido en cache cuando el origen esta inactivo
+		proxy_cache_use_stale error timeout http_500 http_502 http_503 http_504;
+
+		proxy_cache_background_update on;
+		proxy_cache_lock on;
+
+		# Configura nginx como un proxy inverso
+		# proxy_pass http://my_upstream;
+
+		#Primero intenta devolver la solicitud como archivo, luego como directorio y luego muestra un error 404
+		try_files $uri $uri/ =404;
+		strip on; # Elimina todos los espacios y saltos de linea
+		etag on;  # Activa los identificadores de url, y ahorran ancho de banda
+
+	}
+
+	# pass PHP scripts to FastCGI server
+	#
+	#location ~ \.php$ {
+	#	include snippets/fastcgi-php.conf;
+	#
+	#	# With php-fpm (or other unix sockets):
+	#	fastcgi_pass unix:/var/run/php/php7.4-fpm.sock;
+	#	# With php-cgi (or other tcp sockets):
+	#	fastcgi_pass 127.0.0.1:9000;
+	#}
+
+	# deny access to .htaccess files, if Apache's document root
+	# concurs with nginx's one
+	#
+	#location ~ /\.ht {
+	#	deny all;
+	#}
+}
+
+endsnippet
+
+snippet phpServer "Configuracion de un virtual host para php en nginx"
+#############################################################
+## PHP - ${1:Domain} - Block Server
+#############################################################
+proxy_cache_path /tmp/nginx/cache levels=1:2 keys_zone=${1:domain}_cache:10m max_size=10g inactive=60m use_temp_path=off;
+
+server {
+	# There can only be one virtual host as the default server
+	listen 80;       # listen 80 default_server;
+	listen [::]:80;  # listen [::]:80 default_server;
+
+	# SSL configuration
+	#
+	# listen 443 ssl default_server;
+	# listen [::]:443 ssl default_server;
+	#
+	# Self signed certs generated by the ssl-cert package
+	# Don't use them in a production server!
+	#
+	# include snippets/snakeoil.conf;
+
+	root /var/www/${1:domain};
+
+	# Add index.php to the list if you are using PHP
+	index index.php index.html index.htm index.nginx-debian.html;
+
+	server_name www.${1:domain}.com ${1:domain}.com;
+	access_log logs/${2:domain}.access;
+	error_log logs/${2:domain}.error error;
+
+	location / {
+	# First attempt to serve request as file, then
+	# as directory, then fall back to displaying a 404.
+		try_files $uri $uri/ =404;
+		strip on; # Elimina todos los espacios y saltos de linea
+		etag on;  # Activa los identificadores de url, y ahorran ancho de banda
+	}
+
+	# El contenido estático como imágenes y CSS no se vuelve a solicitar por el usuario, sino que se utiliza de la caché local.
+	location ~* .(jpg|jpeg|gif|css|png|js|ico|html)$ {
+		expires max;
+		strip on; # Elimina todos los espacios y saltos de linea
+		etag on;  # Activa los identificadores de url, y ahorran ancho de banda
+	}
+
+
+	# pass PHP scripts to FastCGI server, install php-fpm
+	#
+location ~ \.php$ {
+  include snippets/fastcgi-php.conf;
+
+	# With php-fpm (or other unix sockets):
+	fastcgi_pass unix:/var/run/php/php7.4-fpm.sock;
+
+	# With php-cgi (or other tcp sockets):
+	#	fastcgi_pass 127.0.0.1:9000;
+
+		proxy_cache ${1:domain}_cache;
+		proxy_cache_revalidate on;
+		proxy_cache_min_uses 3;
+
+		# Retorna el contenido en cache cuando el origen esta inactivo
+		proxy_cache_use_stale error timeout http_500 http_502 http_503 http_504;
+
+		proxy_cache_background_update on;
+		proxy_cache_lock on;
+		strip on; # Elimina todos los espacios y saltos de linea
+		etag on;  # Activa los identificadores de url, y ahorran ancho de banda
+
+}
+
+	# deny access to .htaccess files, if Apache's document root
+	# concurs with nginx's one
+	#
+	location ~ /\.ht {
+		deny all;
+	}
+}
+endsnippet
+
+snippet nodeServer "Configuracion para un virtual host de node en nginx"
+#############################################################
+##  Node - ${1:Domain} - Block Server
+#############################################################
+proxy_cache_path /tmp/nginx/cache levels=1:2 keys_zone=${1:domain}_cache:10m max_size=10g inactive=60m use_temp_path=off;
+
+server {
+	# There can only be one virtual host as the default server
+	listen 80;       # listen 80 default_server;
+	listen [::]:80;  # listen [::]:80 default_server;
+
+	# SSL configuration
+	#
+	# listen 443 ssl default_server;
+	# listen [::]:443 ssl default_server;
+	#
+	# Self signed certs generated by the ssl-cert package
+	# Don't use them in a production server!
+	#
+	# include snippets/snakeoil.conf;
+
+	root /var/www/${1:domain};
+
+	# Add index.php to the list if you are using PHP
+	index index.html index.htm index.nginx-debian.html;
+
+	server_name www.${1:domain}.com ${1:domain};
+	access_log logs/${1:domain}.access;
+	error_log logs/${1:domain}.error error;
+
+	# El contenido estático como imágenes y CSS no se vuelve a solicitar por el usuario, sino que se utiliza de la caché local.
+	location ~* .(jpg|jpeg|gif|css|png|js|ico|html)$ {
+		expires max;
+		strip on; # Elimina todos los espacios y saltos de linea
+		etag on;  # Activa los identificadores de url, y ahorran ancho de banda
+	}
+
+	# Location configuracion nodejs
+	location / {
+		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+		proxy_set_header X-Real-IP $remote_addr;
+		proxy_set_header Host $http_host;
+
+		proxy_http_version 1.1;
+		proxy_set_header Upgrade $http_upgrade;
+		proxy_set_header Connection 'upgrade';
+
+		proxy_pass http://${1:domain}:8888;
+		proxy_cache_bypass $http_upgrade;
+
+		proxy_cache ${1:domain}_cache;
+		proxy_cache_revalidate on;
+		proxy_cache_min_uses 3;
+
+		# Retorna el contenido en cache cuando el origen esta inactivo
+		proxy_cache_use_stale error timeout http_500 http_502 http_503 http_504;
+
+		proxy_cache_background_update on;
+		proxy_cache_lock on;
+		strip on; # Elimina todos los espacios y saltos de linea
+		etag on;  # Activa los identificadores de url, y ahorran ancho de banda
+	}
+
+}
+endsnippet
+
+snippet proxyServer "Configuracion para un virtual host de un proxy general en nginx"
+#############################################################
+##  Proxy - ${1:Domain} - Block Server
+#############################################################
+proxy_cache_path /tmp/nginx/cache levels=1:2 keys_zone=${1:domain}_cache:10m max_size=10g inactive=60m use_temp_path=off;
+
+server {
+	# There can only be one virtual host as the default server
+	listen 80;       # listen 80 default_server;
+	listen [::]:80;  # listen [::]:80 default_server;
+
+	# SSL configuration
+	#
+	# listen 443 ssl default_server;
+	# listen [::]:443 ssl default_server;
+	#
+	# Self signed certs generated by the ssl-cert package
+	# Don't use them in a production server!
+	#
+	# include snippets/snakeoil.conf;
+
+	root /var/www/${1:domain};
+
+	# Add index.php to the list if you are using PHP
+	index index.html index.htm index.nginx-debian.html;
+
+	server_name www.${1:domain}.com ${1:domain}.com;
+	access_log logs/${1:domain}.access;
+	error_log logs/${1:domain}.error error;
+
+	# El contenido estático como imágenes y CSS no se vuelve a solicitar por el usuario, sino que se utiliza de la caché local.
+	location ~* .(jpg|jpeg|gif|css|png|js|ico|html)$ {
+		expires max;
+		strip on; # Elimina todos los espacios y saltos de linea
+		etag on;  # Activa los identificadores de url, y ahorran ancho de banda
+	}
+
+	# Location configuracion nodejs
+	location / {
+		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+		proxy_set_header X-Real-IP $remote_addr;
+		proxy_set_header Host $http_host;
+
+		proxy_http_version 1.1;
+		proxy_set_header Upgrade $http_upgrade;
+		proxy_set_header Connection 'upgrade';
+
+		proxy_pass http://${1:domain}:8888;
+		proxy_cache_bypass $http_upgrade;
+
+		proxy_cache ${1:domain}_cache;
+		proxy_cache_revalidate on;
+		proxy_cache_min_uses 3;
+
+		# Retorna el contenido en cache cuando el origen esta inactivo
+		proxy_cache_use_stale error timeout http_500 http_502 http_503 http_504;
+
+		proxy_cache_background_update on;
+		proxy_cache_lock on;
+
+		strip on; # Elimina todos los espacios y saltos de linea
+		etag on;  # Activa los identificadores de url, y ahorran ancho de banda
+
+	}
+}
+endsnippet

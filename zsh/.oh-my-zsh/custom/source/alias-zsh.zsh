@@ -1,5 +1,6 @@
 #-------------------------------------------------------------------
 # ZSH
+alias grep="grep --color"
 alias compress="ouch compress"
 alias decompress="ouch decompress"
 alias flatpak-install="flatpak install flathub -y --noninteractive"

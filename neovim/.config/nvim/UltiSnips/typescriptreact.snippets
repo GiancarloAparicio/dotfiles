@@ -1,0 +1,57 @@
+snippet useState "Hook useState"
+const [${1:state}, set${1/\w+/\u$0/g:State}] = useState("${2: initialValue}")
+endsnippet
+
+snippet hook "Hook basico"
+import React, {useState} from "react";
+
+const `!p snip.rv = snip.basename or "untitled"` = () => {
+
+  const [${1:state}, set${1/\w+/\u$0/g:State}] = useState("${2: initialValue}")
+	return(
+		<>
+			$0
+		</>
+	);
+}
+
+export default `!p snip.rv = snip.basename or "untitled"`;
+endsnippet
+
+snippet classReact "Template de un componente clase para React"
+import React,{ Component} from "react";
+class `!p snip.rv = snip.basename or "untitled"` extends Component {
+	// constructor() {
+	//     super();
+	//     this.add=this.add.bind(this);
+	//    this.state = {
+	//      count: 0,
+	//    };
+	// }
+	// add() {
+	//  this.setState((prevState)=>{
+	//      count=prevState.count+1
+	//  });
+	// }
+
+	state = {
+		count: 0,
+	};
+
+	add = () =>{
+		this.setState((prevState)=>{
+			count=prevState.count+1;
+		});
+	}
+	render() {
+		return (
+			<div>
+				Count: {this.state.count}
+				<button onClick={this.add}>+</button>
+			</div>
+		);
+	}
+}
+
+export default `!p snip.rv = snip.basename or "untitled"`;
+endsnippet

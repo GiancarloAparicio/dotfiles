@@ -1,0 +1,174 @@
+snippet tableH "Tabla horizontal, con medidas para cada campo"
+\begin{landscape}
+\begin{table}[]
+\caption{${1:New caption}}
+\centering
+\label{${1:New caption}}
+\begin{tabular}{|p{0.1\linewidth} | p{0.2\linewidth}| p{0.3\linewidth}| p{0.2\linewidth}|}
+\toprule
+\textbf{Title} & \textbf{Title} & \textbf{Title} & \textbf{Title} \\\\ \midrule
+    1 & 2  & 3      & 4 \\\\ \midrule
+    1 & 2  & 3      & 4 \\\\ \midrule
+    1 & 2  & 3      & 4 \\\\ \midrule
+    1 & 2  & 3      & 4 \\\\ \midrule
+    1 & 2  & 3      & 4 \\\\ \midrule
+    1 & 2  & 3      & 4 \\\\ \bottomrule
+\end{tabular}
+\end{table}
+\end{landscape}
+endsnippet
+
+snippet table "Tabla normal, con medidas para cada campo"
+\begin{table}[]
+\caption{${1:New caption}}
+\centering
+\label{${1:New caption}}
+\begin{tabular}{|p{0.1\linewidth} | p{0.2\linewidth}| p{0.3\linewidth}| }
+\toprule
+\textbf{Title} & \textbf{Title} & \textbf{Title} & \textbf{Title} \\\\ \midrule
+    1 & 2  & 3  \\\\ \midrule
+    1 & 2  & 3  \\\\ \midrule
+    1 & 2  & 3  \\\\ \midrule
+    1 & 2  & 3  \\\\ \midrule
+    1 & 2  & 3  \\\\ \midrule
+    1 & 2  & 3  \\\\ \bottomrule
+\end{tabular}
+\end{table}
+endsnippet
+
+snippet table2 "Tabla diseño numero 2"
+\begin{table}[H]
+    \caption{${1:Título de la tabla}}
+    \label{tabla:ejemplo}
+    \begin{center}
+        \def\arraystretch{1.5}
+        \begin{tabular}{c|c|c|c|}
+            \cline{2-4}  & \textbf{Columna 1} & \textbf{Columna 2} & \textbf{Columna 3} \\ \hline
+            \multicolumn{1}{|c|}{\textbf{Fila 1}}  &   item     &  item  & item  \\\ \hline
+            \multicolumn{1}{|c|}{\textbf{Fila 2}}  &   item     &  item  & item  \\\ \hline
+            \multicolumn{1}{|c|}{\textbf{Fila 3}}  &   item     &  item  & item  \\\ \hline
+        \end{tabular} \\\ \vspace{3mm}
+        Nota. Extraída de \textit{${2:Nombre del libro}}.
+    \end{center}
+\end{table}
+endsnippet
+
+snippet table1 "Tabla diseño numero 1"
+\begin{table}[H]
+    \caption{${1:Título de la tabla}}
+    \label{tabla:ejemplo}
+    \begin{center}
+        \def\arraystretch{1.5}
+        \begin{tabular}{| c | c | c |}
+            \hline
+            Fruta  & Cantidad & Cantidad \\ \hline
+            Manzana & 4       & 4        \\\
+            Naranja & 10      & 4        \\\
+            Plátano & 3       & 4        \\\ \hline
+        \end{tabular} \\\ \vspace{3mm}
+        Nota. Extraída de \textit{${2:Nombre del libro}}.
+    \end{center}
+\end{table}
+endsnippet
+
+snippet citeLarge "Contenido de una cita larga"
+\vspace{5mm}
+\hspace{1cm}\begin{minipage}{15.0cm}
+  ${1:Content}
+\end{minipage}
+\vspace{5mm}
+endsnippet
+
+snippet listEnum "Lista enumerada"
+\begin{enumerate}
+\setlength\itemsep{2em} %Opcional para tener mas espacio entre items
+    \item{ ${1:Item 1}}
+    \item{ ${2:Item 2}}
+\end{enumerate}
+endsnippet
+
+snippet ListNoEnum "Lista no enumerada (Puntos)"
+\begin{itemize}
+\setlength\itemsep{2em} %Opcional para tener mas espacio entre items
+    \item{ ${1:Item 1}}
+    \item{ ${2:Item 2}}
+\end{itemize}
+endsnippet
+
+snippet fontSizeTiny "Tamaño fuente: 1"
+{\tiny ${1:Tamaño fuente: 1}}
+endsnippet
+
+snippet fontSizeScript "Tamaño fuente: 2"
+{\scriptsize ${1:Tamaño fuente: 2}}
+endsnippet
+
+snippet fontSizeFoot "Tamaño fuente: 3"
+{\footnotesize ${1: Tamaño fuente: 3} }
+endsnippet
+
+snippet fontSizeSmall "Tamaño fuente: 4"
+{\small ${1: Tamaño fuente: 4}}
+endsnippet
+
+snippet fontSizeNormal "Tamaño fuente: 5"
+{\normalsize ${1: Tamaño fuente: 5}}
+endsnippet
+
+snippet fontSizeLarge "Tamaño fuente: 6"
+{\large ${1: Tamaño fuente: 6}}
+endsnippet
+
+snippet fontSizeLarge2 "Tamaño fuente: 7"
+{\Large ${1: Tamaño fuente: 7}}
+endsnippet
+
+snippet fontSizeLarge3 "Tamaño fuente: 8"
+{\LARGE ${1: Tamaño fuente: 8}}
+endsnippet
+
+snippet fontSizeHuge "Tamaño fuente: 9"
+{\huge ${1: Tamaño fuente: 9}}
+endsnippet
+
+snippet fontSizeHuge2 "Tamaño fuente: 10"
+{\Huge ${1: Tamaño fuente: 10}}
+endsnippet
+
+snippet fontMayuscula "texto en mayúsculas pequeñas"
+\textsc{${1:texto en mayúsculas pequeñas}}
+endsnippet
+
+snippet fontMaquina "texto en estilo máquina de escribir"
+\texttt{${1:texto en estilo máquina de escribir}}
+endsnippet
+
+snippet fontBold "texto en negritas"
+\textbf{${1:texto en negritas}}
+endsnippet
+
+snippet fontItalica "texto en itálicas"
+\textit{${1:texto en itálicas}}
+endsnippet
+
+snippet fontInclinado "texto inclinado"
+\textsl{${1:texto inclinado}}
+endsnippet
+
+snippet citeAuthor "Citas basadas en el autor,una vez que se utilize una cita, se agrega automaticamente a las 'Referencias' "
+\citeA[pg.~5-8]{${1:thesis}:${2:name}}
+endsnippet
+
+snippet citeText "Citas basadas en el texto, cite[p.~5]{libro:ejemplo} -> Apellido (2020,p.5) "
+\cite[pg.~5-8]{${1:thesis}:${2:name}}
+endsnippet
+
+snippet image "Crea una plantilla para insertar imagenes y las referencia en la tabla de figuras"
+\begin{figure}[h]
+    \caption{${1:Title image}}
+    \begin{center}
+        \includegraphics[scale=1]{assets/images/${2:image.png}} \\\\
+        \textbf{ Fuente: ${3:Adaptada de ...} }
+    \end{center}
+\end{figure}
+endsnippet
