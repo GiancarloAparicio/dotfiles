@@ -1,3 +1,20 @@
+snippet paralelo "Ejecutar procesos en paralelo bash" 
+# Comando 1 en segundo plano
+comando1 &
+pid1=$!
+
+# Comando 2 en segundo plano
+comando2 &
+pid2=$!
+
+# Esperar a que los subprocesos terminen
+wait $pid1
+wait $pid2
+
+# Continuar con el script principal
+echo "Todos los subprocesos han terminado."
+endsnippet
+
 snippet doc "Meta data para script" b
 ######################################################################
 # @author      : Giancarlo Aparicio

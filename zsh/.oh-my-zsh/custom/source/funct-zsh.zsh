@@ -1,6 +1,16 @@
 #-------------------------------------------------------------------
 # Functions ZSH
 
+htop(){
+
+  if command -v  bpytop >/dev/null 2>&1; then
+    bpytop 
+  else 
+    htop 
+  fi
+
+}
+
 neo(){
   if command -v  macchina >/dev/null 2>&1; then
     macchina -S -K -U -C
