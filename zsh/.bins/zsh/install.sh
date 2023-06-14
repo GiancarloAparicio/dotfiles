@@ -23,6 +23,8 @@ pip3 install notify
 pip3 install pydub
 pip3 install pyftpdlib
 pip3 install termgraph
+pip3 install bpytop --upgrade
+
 
 cargo install bottom 
 cargo install tealdeer 
