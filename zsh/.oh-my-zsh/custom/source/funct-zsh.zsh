@@ -1,6 +1,20 @@
 #-------------------------------------------------------------------
 # Functions ZSH
 
+termux-sync-dir(){
+
+  if [ "$#" -eq 0 ]; then
+    read "localDir? Ingrese carpeta local:  "
+    read "remoteDir? Ingrese carpeta remota:  "
+  else 
+    localDir=$1 
+    remoteDir=$2 
+  fi 
+
+  echo "rsync -avz --delete -e \"ssh -p 8022\" $localDir erick@192.168.0.6:$remoteDir"
+  rsync -avz --delete -e "ssh -p 8022" $localDir erick@192.168.0.6:$remoteDir
+}
+
 htop(){
 
   if command -v  bpytop >/dev/null 2>&1; then
