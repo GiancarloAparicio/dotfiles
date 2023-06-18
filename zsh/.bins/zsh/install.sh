@@ -34,6 +34,8 @@ cargo install zoxide
 cargo install skim
 cargo install ouch 
 cargo install sd
+cargo install dufs
+
 
 tldr --update
 
