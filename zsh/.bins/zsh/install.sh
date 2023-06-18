@@ -174,6 +174,9 @@ else
   cp ./apps/* ~/.local/share/applications/
   mkdir -p /mnt/Drive 
   sudo chown $USER:$USER /mnt/Drive
+  
+  # Config RClone
+  # rclone mount "Google Drive:" /mnt/Drive
 
 fi
 
