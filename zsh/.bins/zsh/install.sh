@@ -17,7 +17,9 @@ sudo apt update -y && sudo apt full-upgrade -y
 
 #-------------------------------------------------------------------
 # Install dependencies
-install stow rsync apache2-utils entr rustc cargo zsh-autosuggestions  jq gitflow-avh git-flow neovim mupdf-tools nodejs calibre golang-go iproute2 xtrlock openssh-server openssh-client scrcpy fonts-noto-color-emoji ccze adb android-tools-adb android-tools-fastboot android-libadb xsel git-delta python3 python3-pip git lsof tree wget at re2c sox gh file libsox-fmt-all pdfgrep silversearcher-ag
+install neofetch stow rsync apache2-utils entr rustc cargo zsh-autosuggestions  jq gitflow-avh git-flow neovim mupdf-tools nodejs calibre golang-go iproute2 xtrlock openssh-server openssh-client scrcpy fonts-noto-color-emoji ccze adb android-tools-adb android-tools-fastboot android-libadb xsel git-delta python3 python3-pip git lsof tree wget at re2c sox gh file libsox-fmt-all pdfgrep silversearcher-ag
+
+go get github.com/yudai/gotty
 
 pip3 install notify
 pip3 install pydub
